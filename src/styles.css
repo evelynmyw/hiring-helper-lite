@@ -122,10 +122,14 @@
     border-color: var(--color-border);
   }
 
-  html,
-  body {
+  html {
     background-color: var(--color-background);
+  }
+
+  body {
+    background-color: transparent;
     color: var(--color-foreground);
+    position: relative;
   }
 
   /* Animated aurora / solar-flare backdrop */
@@ -155,7 +159,8 @@
         color-mix(in oklab, var(--inked-violet) 90%, transparent) 0%,
         transparent 74%
       );
-    filter: blur(40px) saturate(125%);
+    filter: blur(50px) saturate(150%);
+    opacity: 0.9;
     animation: flare-drift 22s ease-in-out infinite alternate;
   }
 
@@ -168,7 +173,7 @@
     background: radial-gradient(
       120% 90% at 50% 0%,
       transparent 30%,
-      color-mix(in oklab, var(--inked-violet) 75%, transparent) 100%
+      color-mix(in oklab, var(--inked-violet) 55%, transparent) 100%
     );
   }
 }
