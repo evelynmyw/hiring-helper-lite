@@ -133,7 +133,50 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      >
+        <div
+          className="aurora-blob"
+          style={{
+            top: "-18%",
+            left: "-12%",
+            width: "60vw",
+            height: "60vw",
+            background: "var(--sappan-rose)",
+            opacity: 0.55,
+            animation: "blob-a 18s ease-in-out infinite alternate",
+          }}
+        />
+        <div
+          className="aurora-blob"
+          style={{
+            top: "-10%",
+            right: "-15%",
+            width: "55vw",
+            height: "55vw",
+            background: "var(--wild-plum)",
+            opacity: 0.6,
+            animation: "blob-b 22s ease-in-out infinite alternate",
+          }}
+        />
+        <div
+          className="aurora-blob"
+          style={{
+            bottom: "-25%",
+            left: "20%",
+            width: "65vw",
+            height: "55vw",
+            background: "var(--rose-rice)",
+            opacity: 0.22,
+            animation: "blob-c 26s ease-in-out infinite alternate",
+          }}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_25%,var(--inked-violet)_100%)] opacity-80" />
+      </div>
       <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/40 backdrop-blur-xl">
+
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
           <span className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
             Recruiting Assistant
