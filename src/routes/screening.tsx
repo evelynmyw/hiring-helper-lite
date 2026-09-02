@@ -54,7 +54,7 @@ function CandidateCard({ c }: { c: ScreenedCandidate }) {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <span className="flare-gradient flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-inked-violet">
+            <span className="flare-gradient flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white">
               {c.rank}
             </span>
             <h3 className="truncate text-base font-semibold">{displayName(c)}</h3>
@@ -157,7 +157,7 @@ function ScreeningPage() {
           <Button
             onClick={run}
             disabled={loading || !jd.trim()}
-            className="flare-gradient rounded-xl font-semibold text-inked-violet hover:opacity-90"
+            className="flare-gradient rounded-xl font-semibold text-white hover:opacity-90"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {loading ? "Analyzing…" : "Screen Candidates"}
@@ -180,7 +180,7 @@ function ScreeningPage() {
 
 
       {error && (
-        <div className="mt-6 rounded-2xl border border-destructive/40 bg-destructive/15 p-4 text-sm text-destructive-foreground backdrop-blur">
+        <div className="mt-6 rounded-2xl border border-destructive/40 bg-destructive/15 p-4 text-sm text-destructive backdrop-blur">
           {error}
         </div>
       )}

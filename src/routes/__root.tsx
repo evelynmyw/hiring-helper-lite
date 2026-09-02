@@ -145,7 +145,7 @@ function RootComponent() {
             width: "60vw",
             height: "60vw",
             background: "var(--sappan-rose)",
-            opacity: 0.55,
+            opacity: 0.18,
             animation: "blob-a 18s ease-in-out infinite alternate",
           }}
         />
@@ -157,7 +157,7 @@ function RootComponent() {
             width: "55vw",
             height: "55vw",
             background: "var(--wild-plum)",
-            opacity: 0.6,
+            opacity: 0.16,
             animation: "blob-b 22s ease-in-out infinite alternate",
           }}
         />
@@ -169,11 +169,11 @@ function RootComponent() {
             width: "65vw",
             height: "55vw",
             background: "var(--rose-rice)",
-            opacity: 0.22,
+            opacity: 0.55,
             animation: "blob-c 26s ease-in-out infinite alternate",
           }}
         />
-        <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_20%,var(--inked-violet)_110%)] opacity-40" />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_20%,#ffffff_110%)] opacity-60" />
       </div>
       <div className="relative z-10 flex min-h-screen flex-col">
       <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/40 backdrop-blur-xl">
