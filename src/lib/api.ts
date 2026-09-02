@@ -2,7 +2,8 @@
 // Local dev: create a `.env` file with `VITE_API_BASE=http://localhost:8000`.
 // Remote/tunnel: set VITE_API_BASE to the public https URL of your backend.
 export const API_BASE =
-  import.meta.env.VITE_API_BASE ?? "http://localhost:8000";
+  import.meta.env["VITE_API_BASE"] ?? "http://localhost:8000";
+
 
 
 export type SearchResponse = { query: string; answer: string };
