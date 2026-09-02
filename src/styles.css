@@ -132,50 +132,6 @@
     position: relative;
   }
 
-  /* Animated aurora / solar-flare backdrop */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: -25%;
-    z-index: -2;
-    background:
-      radial-gradient(
-        38% 44% at 18% 22%,
-        color-mix(in oklab, var(--sappan-rose) 65%, transparent) 0%,
-        transparent 70%
-      ),
-      radial-gradient(
-        42% 46% at 82% 18%,
-        color-mix(in oklab, var(--wild-plum) 70%, transparent) 0%,
-        transparent 72%
-      ),
-      radial-gradient(
-        46% 50% at 68% 82%,
-        color-mix(in oklab, var(--rose-rice) 34%, transparent) 0%,
-        transparent 70%
-      ),
-      radial-gradient(
-        50% 55% at 22% 88%,
-        color-mix(in oklab, var(--inked-violet) 90%, transparent) 0%,
-        transparent 74%
-      );
-    filter: blur(50px) saturate(150%);
-    opacity: 0.9;
-    animation: flare-drift 22s ease-in-out infinite alternate;
-  }
-
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: radial-gradient(
-      120% 90% at 50% 0%,
-      transparent 30%,
-      color-mix(in oklab, var(--inked-violet) 55%, transparent) 100%
-    );
-  }
 }
 
 @keyframes flare-drift {
