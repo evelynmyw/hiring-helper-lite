@@ -152,7 +152,7 @@ function ChatPage() {
           e.preventDefault();
           send(input);
         }}
-        className="sticky bottom-0 bg-background/30 pb-6 pt-2 backdrop-blur-xl"
+        className="sticky bottom-0 bg-transparent pb-6 pt-4"
       >
         <div className="glass flare-ring flex items-end gap-2 rounded-2xl p-2">
           <textarea
