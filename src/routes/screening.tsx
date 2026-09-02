@@ -135,14 +135,14 @@ function ScreeningPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 py-8">
-      <h1 className="text-2xl font-semibold tracking-tight">Resume screening</h1>
-      <p className="mt-2 text-sm text-muted-foreground">
+    <div className="mx-auto w-full max-w-4xl px-4 py-10">
+      <h1 className="flare-text text-4xl font-bold tracking-tight">Resume screening</h1>
+      <p className="mt-3 text-sm text-muted-foreground">
         Paste a job description. Every candidate in the database is scored against it
         with a transparent, point-by-point breakdown.
       </p>
 
-      <div className="mt-6 rounded-xl border border-border bg-card p-4 shadow-sm">
+      <div className="glass flare-ring mt-6 rounded-2xl p-4">
         <textarea
           value={jd}
           onChange={(e) => setJd(e.target.value)}
@@ -154,7 +154,11 @@ function ScreeningPage() {
           <span className="text-xs text-muted-foreground">
             Scoring can take 30–60 seconds.
           </span>
-          <Button onClick={run} disabled={loading || !jd.trim()}>
+          <Button
+            onClick={run}
+            disabled={loading || !jd.trim()}
+            className="flare-gradient rounded-xl font-semibold text-inked-violet hover:opacity-90"
+          >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {loading ? "Analyzing…" : "Screen Candidates"}
           </Button>
@@ -162,7 +166,7 @@ function ScreeningPage() {
       </div>
 
       {loading && (
-        <div className="mt-6 rounded-xl border border-border bg-card p-6 text-center shadow-sm">
+        <div className="glass mt-6 rounded-2xl p-6 text-center">
           <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
           <p className="mt-3 text-sm font-medium">
             Analyzing candidates against this role…
@@ -173,6 +177,7 @@ function ScreeningPage() {
           </p>
         </div>
       )}
+
 
       {error && (
         <div className="mt-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
