@@ -49,7 +49,8 @@ function barTone(score: number) {
 
 function CandidateCard({ c }: { c: ScreenedCandidate }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+    <div className="glass flare-ring rounded-2xl p-5">
+
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
