@@ -54,7 +54,7 @@ function CandidateCard({ c }: { c: ScreenedCandidate }) {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-semibold text-secondary-foreground">
+            <span className="flare-gradient flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-inked-violet">
               {c.rank}
             </span>
             <h3 className="truncate text-base font-semibold">{displayName(c)}</h3>
