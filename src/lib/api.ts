@@ -1,5 +1,5 @@
 export const API_BASE =
-  import.meta.env["VITE_API_BASE_URL"] ?? "http://localhost:8000";
+  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
 
 export type SearchResponse = { query: string; answer: string };
 
