@@ -126,23 +126,70 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 const navLink =
-  "rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground";
+  "relative rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground transition-all hover:text-foreground";
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <header className="sticky top-0 z-20 h-14 border-b border-border bg-card/80 backdrop-blur">
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      >
+        <div
+          className="aurora-blob"
+          style={{
+            top: "-18%",
+            left: "-12%",
+            width: "60vw",
+            height: "60vw",
+            background: "var(--sappan-rose)",
+            opacity: 0.55,
+            animation: "blob-a 18s ease-in-out infinite alternate",
+          }}
+        />
+        <div
+          className="aurora-blob"
+          style={{
+            top: "-10%",
+            right: "-15%",
+            width: "55vw",
+            height: "55vw",
+            background: "var(--wild-plum)",
+            opacity: 0.6,
+            animation: "blob-b 22s ease-in-out infinite alternate",
+          }}
+        />
+        <div
+          className="aurora-blob"
+          style={{
+            bottom: "-25%",
+            left: "20%",
+            width: "65vw",
+            height: "55vw",
+            background: "var(--rose-rice)",
+            opacity: 0.22,
+            animation: "blob-c 26s ease-in-out infinite alternate",
+          }}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_20%,var(--inked-violet)_110%)] opacity-40" />
+      </div>
+      <div className="relative z-10 flex min-h-screen flex-col">
+      <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/40 backdrop-blur-xl">
+
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
-          <span className="text-sm font-semibold tracking-tight">
+          <span className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
             Recruiting Assistant
           </span>
           <nav className="flex items-center gap-1">
             <Link
               to="/"
               className={navLink}
-              activeProps={{ className: "bg-secondary text-foreground" }}
+              activeProps={{
+                className:
+                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
+              }}
               activeOptions={{ exact: true }}
             >
               Candidate Search
@@ -150,15 +197,20 @@ function RootComponent() {
             <Link
               to="/screening"
               className={navLink}
-              activeProps={{ className: "bg-secondary text-foreground" }}
+              activeProps={{
+                className:
+                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
+              }}
             >
               Resume Screening
             </Link>
           </nav>
         </div>
       </header>
+
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      </div>
     </QueryClientProvider>
   );
 }
