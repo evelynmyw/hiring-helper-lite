@@ -1,10 +1,5 @@
-// Backend base URL.
-// Local dev: create a `.env` file with `VITE_API_BASE=http://localhost:8000`.
-// Remote/tunnel: set VITE_API_BASE to the public https URL of your backend.
 export const API_BASE =
-  import.meta.env["VITE_API_BASE"] ?? "http://localhost:8000";
-
-
+  import.meta.env["VITE_API_BASE_URL"] ?? "http://localhost:8000";
 
 export type SearchResponse = { query: string; answer: string };
 
@@ -31,21 +26,33 @@ export type ScreenResponse = {
   candidates: ScreenedCandidate[];
 };
 
-async function post<T>(path: string, body: unknown): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
-  return (await res.json()) as T;
+async function post<T>(
+  path: string,
+  body: unknown,
+  timeoutMs: number,
+): Promise<T> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const res = await fetch(`${API_BASE}${path}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
+    return (await res.json()) as T;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 export const searchCandidates = (query: string) =>
-  post<SearchResponse>("/agent/search-candidates", { query });
+  post<SearchResponse>("/agent/search-candidates", { query }, 30_000);
 
 export const screenCandidates = (job_description: string) =>
-  post<ScreenResponse>("/agent/screen-candidates", { job_description });
+  post<ScreenResponse>("/agent/screen-candidates", { job_description }, 120_000);
 
 export const displayName = (c: ScreenedCandidate) =>
   c.name?.trim() || c.email?.trim() || c.document_id.slice(0, 8);
