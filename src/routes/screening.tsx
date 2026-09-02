@@ -180,14 +180,15 @@ function ScreeningPage() {
 
 
       {error && (
-        <div className="mt-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+        <div className="mt-6 rounded-2xl border border-destructive/40 bg-destructive/15 p-4 text-sm text-destructive-foreground backdrop-blur">
           {error}
         </div>
       )}
 
       {result && (
         <div className="mt-8 space-y-6">
-          <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+          <div className="glass flare-ring rounded-2xl p-5">
+
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Parsed role
             </p>
