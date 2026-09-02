@@ -175,6 +175,7 @@ function RootComponent() {
         />
         <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_20%,var(--inked-violet)_110%)] opacity-40" />
       </div>
+      <div className="relative z-10 flex min-h-screen flex-col">
       <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/40 backdrop-blur-xl">
 
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
@@ -209,6 +210,7 @@ function RootComponent() {
 
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      </div>
     </QueryClientProvider>
   );
 }
