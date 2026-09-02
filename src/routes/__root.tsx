@@ -173,7 +173,7 @@ function RootComponent() {
             animation: "blob-c 26s ease-in-out infinite alternate",
           }}
         />
-        <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_25%,var(--inked-violet)_100%)] opacity-80" />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_20%,var(--inked-violet)_110%)] opacity-40" />
       </div>
       <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/40 backdrop-blur-xl">
 
