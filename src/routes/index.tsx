@@ -109,7 +109,7 @@ function ChatPage() {
               className={cn(
                 "max-w-[85%] rounded-2xl px-4 py-3",
                 m.role === "user" &&
-                  "flare-gradient text-inked-violet font-medium shadow-[0_14px_34px_-18px_var(--sappan-rose)]",
+                  "flare-gradient text-white font-medium shadow-[0_14px_34px_-18px_var(--sappan-rose)]",
                 m.role === "assistant" && "glass",
                 m.role === "error" &&
                   "border border-destructive/40 bg-destructive/15 text-destructive-foreground backdrop-blur",
@@ -173,7 +173,7 @@ function ChatPage() {
             type="submit"
             size="icon"
             disabled={loading || !input.trim()}
-            className="flare-gradient rounded-xl text-inked-violet hover:opacity-90"
+            className="flare-gradient rounded-xl text-white hover:opacity-90"
           >
             <Send className="h-4 w-4" />
           </Button>
