@@ -75,23 +75,23 @@ function ChatPage() {
   }
 
   return (
-    <div className="mx-auto flex h-[calc(100vh-3.5rem)] w-full max-w-3xl flex-col px-4">
+    <div className="mx-auto flex h-[calc(100vh-4rem)] w-full max-w-3xl flex-col px-4">
       <div className="flex-1 space-y-4 overflow-y-auto py-6">
         {messages.length === 0 && (
           <div className="mt-10 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
+            <h1 className="flare-text text-4xl font-bold tracking-tight">
               Candidate search
             </h1>
-            <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+            <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
               Describe the person you're looking for in plain English. The assistant
               searches the resume database and explains its picks.
             </p>
-            <div className="mx-auto mt-6 flex max-w-xl flex-col gap-2">
+            <div className="mx-auto mt-8 flex max-w-xl flex-col gap-2.5">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
                   onClick={() => send(s)}
-                  className="rounded-lg border border-border bg-card px-4 py-3 text-left text-sm text-foreground transition-colors hover:border-primary/40 hover:bg-accent/40"
+                  className="glass flare-ring rounded-2xl px-4 py-3 text-left text-sm text-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-22px_var(--sappan-rose)]"
                 >
                   {s}
                 </button>
@@ -107,11 +107,12 @@ function ChatPage() {
           >
             <div
               className={cn(
-                "max-w-[85%] rounded-2xl px-4 py-3 shadow-sm",
-                m.role === "user" && "bg-primary text-primary-foreground",
-                m.role === "assistant" && "border border-border bg-card",
+                "max-w-[85%] rounded-2xl px-4 py-3",
+                m.role === "user" &&
+                  "flare-gradient text-inked-violet font-medium shadow-[0_14px_34px_-18px_var(--sappan-rose)]",
+                m.role === "assistant" && "glass",
                 m.role === "error" &&
-                  "border border-destructive/30 bg-destructive/10 text-destructive",
+                  "border border-destructive/40 bg-destructive/15 text-destructive-foreground backdrop-blur",
               )}
             >
               {m.role === "assistant" ? (
@@ -127,12 +128,12 @@ function ChatPage() {
 
         {loading && (
           <div className="flex justify-start">
-            <div className="flex items-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 shadow-sm">
+            <div className="glass flex items-center gap-2 rounded-2xl px-4 py-3">
               <span className="flex gap-1">
                 {[0, 150, 300].map((d) => (
                   <span
                     key={d}
-                    className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground/60"
+                    className="flare-gradient h-2 w-2 animate-bounce rounded-full"
                     style={{ animationDelay: `${d}ms` }}
                   />
                 ))}
@@ -151,9 +152,9 @@ function ChatPage() {
           e.preventDefault();
           send(input);
         }}
-        className="sticky bottom-0 bg-background pb-6 pt-2"
+        className="sticky bottom-0 bg-background/30 pb-6 pt-2 backdrop-blur-xl"
       >
-        <div className="flex items-end gap-2 rounded-xl border border-border bg-card p-2 shadow-sm focus-within:border-primary/50">
+        <div className="glass flare-ring flex items-end gap-2 rounded-2xl p-2">
           <textarea
             ref={inputRef}
             rows={1}
@@ -168,7 +169,12 @@ function ChatPage() {
             placeholder="Find a quantitative analyst who knows Python and machine learning"
             className="max-h-40 min-h-10 flex-1 resize-none bg-transparent px-2 py-2 text-sm outline-none placeholder:text-muted-foreground"
           />
-          <Button type="submit" size="icon" disabled={loading || !input.trim()}>
+          <Button
+            type="submit"
+            size="icon"
+            disabled={loading || !input.trim()}
+            className="flare-gradient rounded-xl text-inked-violet hover:opacity-90"
+          >
             <Send className="h-4 w-4" />
           </Button>
         </div>
@@ -176,3 +182,4 @@ function ChatPage() {
     </div>
   );
 }
+
