@@ -184,7 +184,7 @@ function RootComponent() {
 
       </div>
       <div className="relative z-10 flex min-h-screen flex-col">
-      <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/40 backdrop-blur-xl">
+      <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/70 backdrop-blur-md">
 
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
           <span className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
