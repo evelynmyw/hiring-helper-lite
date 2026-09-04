@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AuthComponent } from "@/components/ui/sign-up";
+import taraLogo from "@/assets/tara-logo.png";
 
 export const Route = createFileRoute("/login")({
   head: () => ({

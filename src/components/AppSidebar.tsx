@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import taraLogo from "@/assets/tara-logo.png";
 import {
   BarChart3,
   Briefcase,
