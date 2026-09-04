@@ -191,7 +191,7 @@ function RootComponent() {
           <img
             src={taraLogo}
             alt="Tara"
-            className="h-9 w-auto"
+            className="h-11 w-auto"
           />
           <nav className="flex items-center gap-1">
             <Link
