@@ -88,11 +88,11 @@ export function AppSidebar() {
       </nav>
 
       <div className="mt-3 flex items-center gap-3 rounded-xl border border-border/60 px-3 py-2">
-        <span className="flare-gradient flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white">
-          S
+        <span className="flare-gradient flex h-8 w--8 items-center justify-center rounded-full text-xs font-bold text-white">
+          E
         </span>
         <div className="leading-tight">
-          <p className="text-sm font-medium text-foreground">Siddalingappa</p>
+          <p className="text-sm font-medium text-foreground">Evelyn</p>
           <p className="text-xs text-muted-foreground">User</p>
         </div>
       </div>

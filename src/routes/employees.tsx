@@ -23,7 +23,7 @@ export const Route = createFileRoute("/employees")({
 });
 
 const PEOPLE = [
-  { name: "Siddalingappa R", role: "Head of Talent", team: "People", location: "Stockholm", panel: true },
+  { name: "Evelyn R", role: "Head of Talent", team: "People", location: "Stockholm", panel: true },
   { name: "Alice Johnson", role: "Engineering Manager", team: "Platform", location: "Remote", panel: true },
   { name: "Bob Smith", role: "Senior Quant", team: "Trading", location: "Stockholm", panel: true },
   { name: "Carol Williams", role: "Data Scientist", team: "Research", location: "Gothenburg", panel: false },
