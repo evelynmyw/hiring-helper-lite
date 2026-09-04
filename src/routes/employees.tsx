@@ -67,7 +67,7 @@ function EmployeesPage() {
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 {p.panel && (
-                  <span className="rounded-full bg-success/15 px-2.5 py-1 text-[11px] font-medium text-success">
+                  <span className="gradient-success rounded-full px-2.5 py-1 text-[11px] font-medium text-white">
                     Interview panel
                   </span>
                 )}
