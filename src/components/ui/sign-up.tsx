@@ -105,7 +105,7 @@ export const AuthComponent = ({
         <span className="text-lg font-semibold tracking-tight text-foreground">{brandName}</span>
       </div>
 
-      <div className="glass-panel w-full max-w-md rounded-3xl border border-border/60 p-8 shadow-[0_30px_80px_-40px_var(--inked-violet)] backdrop-blur-xl">
+      <div className="glass w-full max-w-md rounded-3xl border border-border/60 p-8 shadow-[0_30px_80px_-40px_var(--inked-violet)] backdrop-blur-xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
@@ -196,7 +196,7 @@ export const AuthComponent = ({
             type="submit"
             disabled={step === "email" ? !isEmailValid : !isPasswordValid}
             className={cn(
-              "flare-button group flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all",
+              "flare-gradient text-white group flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all",
               "disabled:cursor-not-allowed disabled:opacity-50",
             )}
           >
@@ -228,7 +228,7 @@ export const AuthComponent = ({
               initial={{ scale: 0.94, y: 10 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.94, y: 10 }}
-              className="glass-panel relative w-full max-w-sm rounded-3xl border border-border/60 p-8 text-center"
+              className="glass relative w-full max-w-sm rounded-3xl border border-border/60 p-8 text-center"
             >
               {modalStatus !== "loading" && (
                 <button
