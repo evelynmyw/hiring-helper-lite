@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
+import taraLogo from "../assets/tara-logo.png";
+
 type NavItem = {
   label: string;
   icon: LucideIcon;
