@@ -98,7 +98,7 @@ function SchedulePage() {
                     <span className="text-xs text-muted-foreground">
                       {e.stage} · {e.panel}
                     </span>
-                    <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-secondary/60 px-2.5 py-1 text-[11px] font-medium">
+                    <span className="gradient-badge ml-auto inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium text-foreground">
                       <Video className="h-3 w-3" />
                       {e.mode}
                     </span>

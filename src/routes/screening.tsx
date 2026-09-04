@@ -42,9 +42,9 @@ function scoreTone(score: number) {
   return "text-destructive";
 }
 function barTone(score: number) {
-  if (score > 60) return "bg-success";
-  if (score >= 35) return "bg-warning";
-  return "bg-destructive";
+  if (score > 60) return "gradient-success";
+  if (score >= 35) return "gradient-warning";
+  return "gradient-destructive";
 }
 
 function CandidateCard({ c }: { c: ScreenedCandidate }) {
@@ -95,7 +95,7 @@ function CandidateCard({ c }: { c: ScreenedCandidate }) {
                   </div>
                   <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-border">
                     <div
-                      className="h-full rounded-full bg-primary"
+                      className="flare-gradient h-full rounded-full"
                       style={{
                         width: `${b.max_points ? (b.earned_points / b.max_points) * 100 : 0}%`,
                       }}
@@ -201,9 +201,12 @@ function ScreeningPage() {
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {result.required_skills.length ? (
                     result.required_skills.map((s) => (
-                      <Badge key={s} variant="default">
+                      <span
+                        key={s}
+                        className="gradient-success inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold text-white"
+                      >
                         {s}
-                      </Badge>
+                      </span>
                     ))
                   ) : (
                     <span className="text-xs text-muted-foreground">None detected</span>
@@ -217,9 +220,12 @@ function ScreeningPage() {
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {result.nice_to_have_skills.length ? (
                     result.nice_to_have_skills.map((s) => (
-                      <Badge key={s} variant="secondary">
+                      <span
+                        key={s}
+                        className="gradient-badge inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium text-foreground"
+                      >
                         {s}
-                      </Badge>
+                      </span>
                     ))
                   ) : (
                     <span className="text-xs text-muted-foreground">None detected</span>

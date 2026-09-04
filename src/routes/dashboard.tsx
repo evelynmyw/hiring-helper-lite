@@ -152,8 +152,8 @@ function DashboardPage() {
                     <span
                       className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                         r.status === "Active"
-                          ? "bg-success/15 text-success"
-                          : "bg-muted text-muted-foreground"
+                          ? "gradient-success text-white"
+                          : "gradient-badge text-foreground"
                       }`}
                     >
                       {r.status}
