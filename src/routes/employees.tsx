@@ -6,13 +6,13 @@ import { AppShell } from "@/components/AppSidebar";
 export const Route = createFileRoute("/employees")({
   head: () => ({
     meta: [
-      { title: "Employee Directory — Recruiting Assistant" },
+      { title: "Employee Directory — Tara" },
       {
         name: "description",
         content:
           "Internal employee directory with team, role, location and hiring-panel availability.",
       },
-      { property: "og:title", content: "Employee Directory — Recruiting Assistant" },
+      { property: "og:title", content: "Employee Directory — Tara" },
       {
         property: "og:description",
         content: "Team directory with roles, locations and interview panels.",

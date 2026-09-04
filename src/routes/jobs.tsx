@@ -6,13 +6,13 @@ import { AppShell } from "@/components/AppSidebar";
 export const Route = createFileRoute("/jobs")({
   head: () => ({
     meta: [
-      { title: "Open Jobs — Recruiting Assistant" },
+      { title: "Open Jobs — Tara" },
       {
         name: "description",
         content:
           "Browse every open requisition, department, location and applicant volume in one place.",
       },
-      { property: "og:title", content: "Open Jobs — Recruiting Assistant" },
+      { property: "og:title", content: "Open Jobs — Tara" },
       {
         property: "og:description",
         content: "Every open requisition with applicant volume and status.",

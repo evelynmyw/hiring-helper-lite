@@ -9,13 +9,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/chat")({
   head: () => ({
     meta: [
-      { title: "Candidate Search — Recruiting Assistant" },
+      { title: "Candidate Search — Tara" },
       {
         name: "description",
         content:
           "Ask natural-language recruiting questions and get sourced candidate matches from your resume database.",
       },
-      { property: "og:title", content: "Candidate Search — Recruiting Assistant" },
+      { property: "og:title", content: "Candidate Search — Tara" },
       {
         property: "og:description",
         content: "Natural-language candidate sourcing over your resume database.",

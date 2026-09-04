@@ -4,12 +4,12 @@ import { AuthComponent } from "@/components/ui/sign-up";
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Sign in — Recruiting Assistant" },
+      { title: "Sign in — Tara" },
       {
         name: "description",
         content: "Sign in to the recruiting assistant to search candidates and screen resumes.",
       },
-      { property: "og:title", content: "Sign in — Recruiting Assistant" },
+      { property: "og:title", content: "Sign in — Tara" },
       {
         property: "og:description",
         content: "Sign in to the recruiting assistant to search candidates and screen resumes.",
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   return (
     <main className="flex flex-1 items-center justify-center">
-      <AuthComponent brandName="Recruiting Assistant" />
+      <AuthComponent brandName="Tara" />
     </main>
   );
 }

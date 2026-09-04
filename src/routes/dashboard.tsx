@@ -12,7 +12,7 @@ import { AppShell } from "@/components/AppSidebar";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Recruitment Dashboard — Recruiting Assistant" },
+      { title: "Recruitment Dashboard — Tara" },
       {
         name: "description",
         content:
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/dashboard")({
       },
       {
         property: "og:title",
-        content: "Recruitment Dashboard — Recruiting Assistant",
+        content: "Recruitment Dashboard — Tara",
       },
       {
         property: "og:description",

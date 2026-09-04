@@ -53,7 +53,7 @@ export function AppSidebar() {
     <aside className="glass sticky top-16 hidden h-[calc(100vh-4rem)] w-[var(--sidebar-width)] shrink-0 flex-col overflow-y-auto rounded-r-2xl p-3 md:flex">
       <div className="px-3 pb-3 pt-1">
         <p className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
-          NordMatch
+          Tara
         </p>
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
           Applicant tracking

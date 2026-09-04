@@ -1,6 +1,6 @@
 # Talent Scout Assistant
 
-# Lovable Brief — Recruiting Assistant Demo
+# Lovable Brief — Tara Demo
 
 I need a recruiting assistant web app with two pages: a candidate search chat, and a resume screening/scoring page. Backend is already built and running locally at http://localhost:8000. CORS is already open, no proxy needed. No authentication needed.
 

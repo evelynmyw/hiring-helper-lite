@@ -4,7 +4,7 @@ import { ClipboardCheck, Search } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Recruiting Assistant — AI-Powered Talent Scout" },
+      { title: "Tara — AI-Powered Talent Scout" },
       {
         name: "description",
         content:
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "Recruiting Assistant — AI-Powered Talent Scout",
+        content: "Tara — AI-Powered Talent Scout",
       },
       {
         property: "og:description",

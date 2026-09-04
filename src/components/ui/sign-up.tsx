@@ -47,7 +47,7 @@ export interface AuthComponentProps {
 
 export const AuthComponent = ({
   logo = <DefaultLogo />,
-  brandName = "Recruiting Assistant",
+  brandName = "Tara",
   onSubmit,
 }: AuthComponentProps) => {
   const [email, setEmail] = useState("");
