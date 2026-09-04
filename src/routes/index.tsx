@@ -27,8 +27,11 @@ export const Route = createFileRoute("/")({
 function LandingPage() {
   return (
     <main className="relative flex min-h-screen flex-col">
+      {/* Animated solar flare flow backdrop */}
+      <div aria-hidden className="solar-flow" />
+
       {/* Hero */}
-      <section className="relative flex flex-1 flex-col items-center justify-center px-4 py-16 text-center">
+      <section className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 py-16 text-center">
         <h1 className="mx-auto max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
           Find the right talent,{" "}
           <span className="flare-text">faster.</span>
@@ -42,7 +45,7 @@ function LandingPage() {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
           <Link
             to="/chat"
-            className="flare-gradient inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_34px_-18px_var(--sappan-rose)] transition-opacity hover:opacity-90"
+            className="glass flare-ring inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-22px_var(--sappan-rose)]"
           >
             <Search className="h-4 w-4" />
             Search candidates
@@ -60,3 +63,4 @@ function LandingPage() {
     </main>
   );
 }
+
