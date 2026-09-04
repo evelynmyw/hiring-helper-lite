@@ -80,9 +80,9 @@ const JOBS = [
 ];
 
 const statusStyle: Record<string, string> = {
-  Active: "bg-success/15 text-success",
-  Draft: "bg-muted text-muted-foreground",
-  Closed: "bg-destructive/15 text-destructive",
+  Active: "gradient-success text-white",
+  Draft: "gradient-badge text-foreground",
+  Closed: "gradient-destructive text-white",
 };
 
 function JobsPage() {
