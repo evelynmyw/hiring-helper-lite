@@ -12,7 +12,6 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import taraLogo from "@/assets/tara-logo.png";
 
 function NotFoundComponent() {
   return (
@@ -103,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
 
@@ -188,16 +187,9 @@ function RootComponent() {
       <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/70 backdrop-blur-md">
 
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <img
-              src={taraLogo}
-              alt="Tara"
-              className="h-10 w-auto"
-            />
-            <span className="text-lg font-semibold tracking-tight text-foreground">
-              Tara
-            </span>
-          </Link>
+          <span className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
+            Tara
+          </span>
           <nav className="flex items-center gap-1">
             <Link
               to="/"
