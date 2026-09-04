@@ -203,6 +203,16 @@ function RootComponent() {
               Home
             </Link>
             <Link
+              to="/dashboard"
+              className={navLink}
+              activeProps={{
+                className:
+                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
+              }}
+            >
+              Dashboard
+            </Link>
+            <Link
               to="/chat"
               className={navLink}
               activeProps={{
