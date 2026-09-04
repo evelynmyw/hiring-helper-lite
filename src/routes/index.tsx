@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MessageSquareText, ClipboardCheck, Sparkles, Search, ArrowRight } from "lucide-react";
+import { MessageSquareText, ClipboardCheck, Search, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,12 +29,7 @@ function LandingPage() {
     <main className="relative flex flex-col">
       {/* Hero */}
       <section className="relative flex flex-col items-center justify-center px-4 pb-16 pt-16 text-center sm:pt-24">
-        <div className="glass flare-ring mx-auto inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-foreground">
-          <Sparkles className="h-3.5 w-3.5" />
-          <span>AI-powered recruiting demo</span>
-        </div>
-
-        <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+        <h1 className="mx-auto max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
           Find the right talent,{" "}
           <span className="flare-text">faster.</span>
         </h1>
