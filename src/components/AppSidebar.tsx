@@ -19,20 +19,27 @@ import type { ReactNode } from "react";
 type NavItem = {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/chat" | "/screening";
+  to?:
+    | "/dashboard"
+    | "/chat"
+    | "/screening"
+    | "/jobs"
+    | "/employees"
+    | "/schedule"
+    | "/analytics";
   exact?: boolean;
 };
 
 const NAV: NavItem[] = [
   { label: "Dashboard", icon: LayoutDashboard, to: "/dashboard" },
-  { label: "Jobs", icon: Briefcase },
+  { label: "Jobs", icon: Briefcase, to: "/jobs" },
   { label: "Candidates", icon: Users, to: "/chat" },
   { label: "Screening", icon: ClipboardCheck, to: "/screening" },
-  { label: "Employee", icon: UserRound },
+  { label: "Employee", icon: UserRound, to: "/employees" },
   { label: "Promotion", icon: Gift },
   { label: "Message", icon: MessageSquare },
-  { label: "Schedule", icon: Calendar },
-  { label: "Analytics", icon: BarChart3 },
+  { label: "Schedule", icon: Calendar, to: "/schedule" },
+  { label: "Analytics", icon: BarChart3, to: "/analytics" },
   { label: "Career site", icon: Globe },
   { label: "Help Center", icon: HelpCircle },
   { label: "Settings", icon: Settings },
