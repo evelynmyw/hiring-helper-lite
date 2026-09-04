@@ -42,9 +42,9 @@ function scoreTone(score: number) {
   return "text-destructive";
 }
 function barTone(score: number) {
-  if (score > 60) return "bg-success";
-  if (score >= 35) return "bg-warning";
-  return "bg-destructive";
+  if (score > 60) return "gradient-success";
+  if (score >= 35) return "gradient-warning";
+  return "gradient-destructive";
 }
 
 function CandidateCard({ c }: { c: ScreenedCandidate }) {
