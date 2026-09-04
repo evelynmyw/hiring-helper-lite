@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import taraLogo from "@/assets/tara-logo.png";
 
 function NotFoundComponent() {
   return (
@@ -187,9 +188,11 @@ function RootComponent() {
       <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/70 backdrop-blur-md">
 
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
-          <span className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
-            Tara
-          </span>
+          <img
+            src={taraLogo}
+            alt="Tara"
+            className="h-7 w-auto"
+          />
           <nav className="flex items-center gap-1">
             <Link
               to="/"
