@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/tara-logo.png";
 import {
   BarChart3,
   Briefcase,
@@ -53,7 +52,9 @@ export function AppSidebar() {
   return (
     <aside className="glass sticky top-16 hidden h-[calc(100vh-4rem)] w-[var(--sidebar-width)] shrink-0 flex-col overflow-y-auto rounded-r-2xl p-3 md:flex">
       <div className="px-3 pb-3 pt-1">
-        <img src={logo} alt="Tara" className="h-8 w-auto" />
+        <p className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
+          Tara
+        </p>
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
           Applicant tracking
         </p>
