@@ -25,7 +25,16 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   return (
     <main className="flex flex-1 items-center justify-center">
-      <AuthComponent brandName="Tara" />
+      <AuthComponent
+        brandName="Tara"
+        logo={
+          <img
+            src={taraLogo}
+            alt="Tara"
+            className="mx-auto h-12 w-auto"
+          />
+        }
+      />
     </main>
   );
 }
