@@ -187,8 +187,10 @@
 @utility aurora-blob {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(90px);
+  filter: blur(60px);
   will-change: transform;
+  transform: translateZ(0);
+  contain: strict;
 }
 
 @keyframes flare-drift {
