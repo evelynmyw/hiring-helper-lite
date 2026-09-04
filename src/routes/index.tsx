@@ -1,185 +1,129 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { Send } from "lucide-react";
-import { Markdown } from "@/components/Markdown";
-import { Button } from "@/components/ui/button";
-import { searchCandidates } from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { MessageSquareText, ClipboardCheck, Sparkles, Search, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Candidate Search — Recruiting Assistant" },
+      { title: "Recruiting Assistant — AI-Powered Talent Scout" },
       {
         name: "description",
         content:
-          "Ask natural-language recruiting questions and get sourced candidate matches from your resume database.",
+          "Search and score candidates with an AI recruiting assistant. Natural-language candidate search and explainable resume screening.",
       },
-      { property: "og:title", content: "Candidate Search — Recruiting Assistant" },
+      {
+        property: "og:title",
+        content: "Recruiting Assistant — AI-Powered Talent Scout",
+      },
       {
         property: "og:description",
-        content: "Natural-language candidate sourcing over your resume database.",
+        content:
+          "Search and score candidates with an AI recruiting assistant.",
       },
     ],
   }),
-  component: ChatPage,
+  component: LandingPage,
 });
 
-type Msg = { id: number; role: "user" | "assistant" | "error"; content: string };
-
-const SUGGESTIONS = [
-  "Find a quantitative analyst who knows Python and machine learning",
-  "Any candidates with a master's degree in a technical field?",
-  "Looking for a senior corporate lawyer with 10+ years of M&A experience",
-];
-
-function ChatPage() {
-  const [messages, setMessages] = useState<Msg[]>([]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const endRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
-
-  useEffect(() => {
-    if (!loading) inputRef.current?.focus();
-  }, [loading]);
-
-  async function send(query: string) {
-    const text = query.trim();
-    if (!text || loading) return;
-    setInput("");
-    setMessages((m) => [...m, { id: Date.now(), role: "user", content: text }]);
-    setLoading(true);
-    try {
-      const res = await searchCandidates(text);
-      setMessages((m) => [
-        ...m,
-        { id: Date.now() + 1, role: "assistant", content: res.answer },
-      ]);
-    } catch {
-      setMessages((m) => [
-        ...m,
-        {
-          id: Date.now() + 1,
-          role: "error",
-          content: "Something went wrong, please try again.",
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  }
-
+function LandingPage() {
   return (
-    <div className="mx-auto flex h-[calc(100vh-4rem)] w-full max-w-3xl flex-col px-4">
-      <div className="flex-1 space-y-4 overflow-y-auto py-6">
-        {messages.length === 0 && (
-          <div className="mt-10 text-center">
-            <h1 className="flare-text text-4xl font-bold tracking-tight">
-              Candidate search
-            </h1>
-            <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
-              Describe the person you're looking for in plain English. The assistant
-              searches the resume database and explains its picks.
-            </p>
-            <div className="mx-auto mt-8 flex max-w-xl flex-col gap-2.5">
-              {SUGGESTIONS.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => send(s)}
-                  className="glass flare-ring rounded-2xl px-4 py-3 text-left text-sm text-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-22px_var(--sappan-rose)]"
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {messages.map((m) => (
-          <div
-            key={m.id}
-            className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}
-          >
-            <div
-              className={cn(
-                "max-w-[85%] rounded-2xl px-4 py-3",
-                m.role === "user" &&
-                  "flare-gradient text-white font-medium shadow-[0_14px_34px_-18px_var(--sappan-rose)]",
-                m.role === "assistant" && "glass",
-                m.role === "error" &&
-                  "border border-destructive/40 bg-destructive/15 text-destructive-foreground backdrop-blur",
-              )}
-            >
-              {m.role === "assistant" ? (
-                <Markdown>{m.content}</Markdown>
-              ) : (
-                <p className="whitespace-pre-wrap text-sm leading-relaxed">
-                  {m.content}
-                </p>
-              )}
-            </div>
-          </div>
-        ))}
-
-        {loading && (
-          <div className="flex justify-start">
-            <div className="glass flex items-center gap-2 rounded-2xl px-4 py-3">
-              <span className="flex gap-1">
-                {[0, 150, 300].map((d) => (
-                  <span
-                    key={d}
-                    className="flare-gradient h-2 w-2 animate-bounce rounded-full"
-                    style={{ animationDelay: `${d}ms` }}
-                  />
-                ))}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                Searching candidates…
-              </span>
-            </div>
-          </div>
-        )}
-        <div ref={endRef} />
-      </div>
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          send(input);
-        }}
-        className="sticky bottom-0 bg-transparent pb-6 pt-4"
-      >
-        <div className="glass flare-ring flex items-end gap-2 rounded-2xl p-2">
-          <textarea
-            ref={inputRef}
-            rows={1}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                send(input);
-              }
-            }}
-            placeholder="Find a quantitative analyst who knows Python and machine learning"
-            className="max-h-40 min-h-10 flex-1 resize-none bg-transparent px-2 py-2 text-sm outline-none placeholder:text-muted-foreground"
-          />
-          <Button
-            type="submit"
-            size="icon"
-            disabled={loading || !input.trim()}
-            className="flare-gradient rounded-xl text-white hover:opacity-90"
-          >
-            <Send className="h-4 w-4" />
-          </Button>
+    <main className="relative flex flex-col">
+      {/* Hero */}
+      <section className="relative flex flex-col items-center justify-center px-4 pb-16 pt-16 text-center sm:pt-24">
+        <div className="glass flare-ring mx-auto inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-foreground">
+          <Sparkles className="h-3.5 w-3.5" />
+          <span>AI-powered recruiting demo</span>
         </div>
-      </form>
-    </div>
+
+        <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+          Find the right talent,{" "}
+          <span className="flare-text">faster.</span>
+        </h1>
+
+        <p className="mx-auto mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
+          A lightweight recruiting assistant that understands natural-language
+          queries and scores every resume with a transparent breakdown.
+        </p>
+
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Link
+            to="/chat"
+            className="flare-gradient inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_34px_-18px_var(--sappan-rose)] transition-opacity hover:opacity-90"
+          >
+            <Search className="h-4 w-4" />
+            Search candidates
+          </Link>
+          <Link
+            to="/screening"
+            className="glass flare-ring inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-22px_var(--sappan-rose)]"
+          >
+            <ClipboardCheck className="h-4 w-4" />
+            Screen resumes
+          </Link>
+        </div>
+      </section>
+
+      {/* Feature cards */}
+      <section className="mx-auto w-full max-w-5xl px-4 pb-20">
+        <div className="grid gap-6 md:grid-cols-2">
+          <Link
+            to="/chat"
+            className="group glass flare-ring rounded-3xl p-6 transition-all hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_var(--sappan-rose)]"
+          >
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl flare-gradient text-white shadow-lg">
+              <MessageSquareText className="h-6 w-6" />
+            </div>
+            <h2 className="mt-5 text-xl font-semibold">Candidate search chat</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Describe the role in plain English. The assistant searches the
+              resume database and explains which candidates match and why.
+            </p>
+            <div className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary">
+              Start searching
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </div>
+          </Link>
+
+          <Link
+            to="/screening"
+            className="group glass flare-ring rounded-3xl p-6 transition-all hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_var(--sappan-rose)]"
+          >
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl flare-gradient text-white shadow-lg">
+              <ClipboardCheck className="h-6 w-6" />
+            </div>
+            <h2 className="mt-5 text-xl font-semibold">Resume screening & scoring</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Paste a full job description. Every candidate is scored against
+              the role with an explainable, criterion-by-criterion breakdown.
+            </p>
+            <div className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary">
+              Screen resumes
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </div>
+          </Link>
+        </div>
+
+        <div className="glass flare-ring mt-6 rounded-3xl p-6 md:p-8">
+          <div className="flex flex-col items-start gap-6 md:flex-row md:items-center">
+            <div className="flex-1">
+              <h2 className="text-xl font-semibold">Built for local demo</h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                This frontend connects to a backend running on{" "}
+                <code className="rounded-md bg-muted/60 px-1.5 py-0.5 text-xs font-medium">
+                  localhost:8000
+                </code>
+                . Make sure the API is running, then choose a tool above to try
+                it out.
+              </p>
+            </div>
+            <Link
+              to="/chat"
+              className="flare-gradient shrink-0 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            >
+              Try the demo
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
-
