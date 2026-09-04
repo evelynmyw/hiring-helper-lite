@@ -200,6 +200,16 @@ function RootComponent() {
               }}
               activeOptions={{ exact: true }}
             >
+              Home
+            </Link>
+            <Link
+              to="/chat"
+              className={navLink}
+              activeProps={{
+                className:
+                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
+              }}
+            >
               Candidate Search
             </Link>
             <Link
