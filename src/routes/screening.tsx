@@ -95,7 +95,7 @@ function CandidateCard({ c }: { c: ScreenedCandidate }) {
                   </div>
                   <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-border">
                     <div
-                      className="h-full rounded-full bg-primary"
+                      className="flare-gradient h-full rounded-full"
                       style={{
                         width: `${b.max_points ? (b.earned_points / b.max_points) * 100 : 0}%`,
                       }}
