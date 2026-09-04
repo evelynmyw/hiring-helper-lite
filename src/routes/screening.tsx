@@ -201,9 +201,12 @@ function ScreeningPage() {
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {result.required_skills.length ? (
                     result.required_skills.map((s) => (
-                      <Badge key={s} variant="default">
+                      <span
+                        key={s}
+                        className="gradient-success inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold text-white"
+                      >
                         {s}
-                      </Badge>
+                      </span>
                     ))
                   ) : (
                     <span className="text-xs text-muted-foreground">None detected</span>
@@ -217,9 +220,12 @@ function ScreeningPage() {
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {result.nice_to_have_skills.length ? (
                     result.nice_to_have_skills.map((s) => (
-                      <Badge key={s} variant="secondary">
+                      <span
+                        key={s}
+                        className="gradient-badge inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium text-foreground"
+                      >
                         {s}
-                      </Badge>
+                      </span>
                     ))
                   ) : (
                     <span className="text-xs text-muted-foreground">None detected</span>
