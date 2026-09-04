@@ -44,7 +44,7 @@ const DAYS = [
     events: [
       { time: "10:00", candidate: "David Chen", stage: "Portfolio review", panel: "Design team", mode: "Video" },
       { time: "13:30", candidate: "Farid Haddad", stage: "System design", panel: "Alice Johnson", mode: "On-site" },
-      { time: "16:00", candidate: "Grace Park", stage: "Culture fit", panel: "Siddalingappa R", mode: "Video" },
+      { time: "16:00", candidate: "Grace Park", stage: "Culture fit", panel: "Evelyn R", mode: "Video" },
     ],
   },
   {
