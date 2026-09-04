@@ -188,11 +188,16 @@ function RootComponent() {
       <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/70 backdrop-blur-md">
 
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
-          <img
-            src={taraLogo}
-            alt="Tara"
-            className="h-14 w-auto"
-          />
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              src={taraLogo}
+              alt="Tara"
+              className="h-10 w-auto"
+            />
+            <span className="text-lg font-semibold tracking-tight text-foreground">
+              Tara
+            </span>
+          </Link>
           <nav className="flex items-center gap-1">
             <Link
               to="/"

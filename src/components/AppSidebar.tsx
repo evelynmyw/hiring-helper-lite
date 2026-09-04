@@ -53,11 +53,16 @@ export function AppSidebar() {
   return (
     <aside className="glass sticky top-16 hidden h-[calc(100vh-4rem)] w-[var(--sidebar-width)] shrink-0 flex-col overflow-y-auto rounded-r-2xl p-3 md:flex">
       <div className="px-3 pb-3 pt-1">
-        <img
-          src={taraLogo}
-          alt="Tara"
-          className="h-7 w-auto"
-        />
+        <Link to="/" className="flex items-center gap-2">
+          <img
+            src={taraLogo}
+            alt="Tara"
+            className="h-8 w-auto"
+          />
+          <span className="text-base font-semibold tracking-tight text-foreground">
+            Tara
+          </span>
+        </Link>
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
           Applicant tracking
         </p>
