@@ -295,25 +295,33 @@
   100% { transform: translate3d(-8%, -4%, 0) scale(0.98); }
 }
 
-/* Solar flare flow — animated mesh gradient backdrop (feral-ui style) */
+/* Solar flare flow — animated mesh gradient backdrop (GPU-composited transform) */
 @utility solar-flow {
   position: absolute;
   inset: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+  contain: strict;
   background-color: var(--rose-rice);
-  background-image:
-    radial-gradient(60% 70% at 20% 25%, color-mix(in oklab, var(--sappan-rose) 85%, transparent) 0%, transparent 65%),
-    radial-gradient(55% 65% at 78% 20%, color-mix(in oklab, #ffc24b 80%, transparent) 0%, transparent 62%),
-    radial-gradient(65% 70% at 70% 82%, color-mix(in oklab, var(--wild-plum) 78%, transparent) 0%, transparent 66%),
-    radial-gradient(70% 75% at 12% 88%, color-mix(in oklab, #f4664d 70%, transparent) 0%, transparent 68%);
-  background-size: 180% 180%, 170% 170%, 200% 200%, 190% 190%;
-  filter: blur(40px) saturate(125%);
   opacity: 0.55;
-  animation: solar-flow-drift 24s ease-in-out infinite alternate;
   mask-image: radial-gradient(120% 100% at 50% 40%, #000 45%, transparent 100%);
   -webkit-mask-image: radial-gradient(120% 100% at 50% 40%, #000 45%, transparent 100%);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -25%;
+    background-image:
+      radial-gradient(45% 45% at 20% 25%, color-mix(in oklab, var(--sappan-rose) 85%, transparent) 0%, transparent 70%),
+      radial-gradient(40% 42% at 78% 20%, color-mix(in oklab, #ffc24b 80%, transparent) 0%, transparent 70%),
+      radial-gradient(48% 46% at 70% 82%, color-mix(in oklab, var(--wild-plum) 78%, transparent) 0%, transparent 70%),
+      radial-gradient(50% 48% at 12% 88%, color-mix(in oklab, #f4664d 70%, transparent) 0%, transparent 70%);
+    filter: blur(30px) saturate(125%);
+    will-change: transform;
+    transform: translateZ(0);
+    animation: solar-flow-drift 28s ease-in-out infinite alternate;
+  }
 }
 
 .dark .solar-flow {
@@ -322,13 +330,20 @@
 
 @keyframes solar-flow-drift {
   0% {
-    background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%;
-  }
-  50% {
-    background-position: 40% 30%, 60% 40%, 40% 60%, 60% 70%;
+    transform: translate3d(-4%, -3%, 0) scale(1.05) rotate(0deg);
   }
   100% {
-    background-position: 100% 60%, 0% 80%, 0% 20%, 100% 30%;
+    transform: translate3d(5%, 4%, 0) scale(1.15) rotate(8deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .solar-flow::before,
+  .aurora-blob,
+  .flare-text,
+  .flare-gradient {
+    animation: none !important;
+  }
+}
+
 
