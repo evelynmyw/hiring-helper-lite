@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
+import taraLogo from "../assets/tara-logo.png";
+
 type NavItem = {
   label: string;
   icon: LucideIcon;
@@ -52,12 +54,21 @@ export function AppSidebar() {
   return (
     <aside className="glass sticky top-16 hidden h-[calc(100vh-4rem)] w-[var(--sidebar-width)] shrink-0 flex-col overflow-y-auto rounded-r-2xl p-3 md:flex">
       <div className="px-3 pb-3 pt-1">
-        <p className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
-          Tara
-        </p>
-        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          Applicant tracking
-        </p>
+        <div className="flex items-center gap-2">
+          <img
+            src={taraLogo}
+            alt="Tara"
+            className="h-7 w-7 rounded-lg object-contain"
+          />
+          <div>
+            <p className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
+              Tara
+            </p>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              Applicant tracking
+            </p>
+          </div>
+        </div>
       </div>
 
       <nav className="flex flex-1 flex-col gap-1">
