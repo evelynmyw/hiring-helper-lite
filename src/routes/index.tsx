@@ -26,9 +26,9 @@ export const Route = createFileRoute("/")({
 
 function LandingPage() {
   return (
-    <main className="relative flex flex-col">
+    <main className="relative flex min-h-screen flex-col">
       {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center px-4 pb-16 pt-16 text-center sm:pt-24">
+      <section className="relative flex flex-1 flex-col items-center justify-center px-4 py-16 text-center">
         <h1 className="mx-auto max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
           Find the right talent,{" "}
           <span className="flare-text">faster.</span>
