@@ -6,13 +6,13 @@ import { AppShell } from "@/components/AppSidebar";
 export const Route = createFileRoute("/analytics")({
   head: () => ({
     meta: [
-      { title: "Hiring Analytics — Recruiting Assistant" },
+      { title: "Hiring Analytics — Tara" },
       {
         name: "description",
         content:
           "Track time-to-hire, offer acceptance, sourcing channels and monthly application volume.",
       },
-      { property: "og:title", content: "Hiring Analytics — Recruiting Assistant" },
+      { property: "og:title", content: "Hiring Analytics — Tara" },
       {
         property: "og:description",
         content: "Time-to-hire, conversion and sourcing channel performance.",

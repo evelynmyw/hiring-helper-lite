@@ -78,12 +78,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Recruiting Assistant" },
+      { title: "Tara" },
       {
         name: "description",
         content: "Internal recruiting assistant: candidate search and resume scoring.",
       },
-      { property: "og:title", content: "Recruiting Assistant" },
+      { property: "og:title", content: "Tara" },
       {
         property: "og:description",
         content: "Internal recruiting assistant: candidate search and resume scoring.",
@@ -188,7 +188,7 @@ function RootComponent() {
 
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
           <span className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
-            Recruiting Assistant
+            Tara
           </span>
           <nav className="flex items-center gap-1">
             <Link

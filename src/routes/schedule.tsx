@@ -6,13 +6,13 @@ import { AppShell } from "@/components/AppSidebar";
 export const Route = createFileRoute("/schedule")({
   head: () => ({
     meta: [
-      { title: "Interview Schedule — Recruiting Assistant" },
+      { title: "Interview Schedule — Tara" },
       {
         name: "description",
         content:
           "This week's interview schedule with candidates, panels, stages and meeting formats.",
       },
-      { property: "og:title", content: "Interview Schedule — Recruiting Assistant" },
+      { property: "og:title", content: "Interview Schedule — Tara" },
       {
         property: "og:description",
         content: "This week's interviews, panels and stages at a glance.",

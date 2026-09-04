@@ -20,13 +20,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/screening")({
   head: () => ({
     meta: [
-      { title: "Resume Screening — Recruiting Assistant" },
+      { title: "Resume Screening — Tara" },
       {
         name: "description",
         content:
           "Paste a job description and score every candidate in the database with an explainable point-by-point breakdown.",
       },
-      { property: "og:title", content: "Resume Screening — Recruiting Assistant" },
+      { property: "og:title", content: "Resume Screening — Tara" },
       {
         property: "og:description",
         content: "Explainable candidate scoring against any job description.",
