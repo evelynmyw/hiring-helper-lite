@@ -58,3 +58,68 @@ export const screenCandidates = (job_description: string) =>
 
 export const displayName = (c: ScreenedCandidate) =>
   c.name?.trim() || c.email?.trim() || c.document_id.slice(0, 8);
+
+export type CandidateDocument = {
+  document_id: string;
+  name?: string | null;
+  email?: string | null;
+  content: string;
+};
+
+async function get<T>(path: string, timeoutMs: number): Promise<T> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(`${API_BASE}${path}`, { signal: controller.signal });
+    if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
+    return (await res.json()) as T;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+type RawDocument = {
+  document_id?: string;
+  id?: string;
+  name?: string | null;
+  email?: string | null;
+  content?: string | null;
+  text?: string | null;
+  raw_text?: string | null;
+};
+
+export async function getCandidateDocument(
+  documentId: string,
+): Promise<CandidateDocument> {
+  const raw = await get<RawDocument>(`/documents/${documentId}`, 30_000);
+  return {
+    document_id: raw.document_id ?? raw.id ?? documentId,
+    name: raw.name ?? null,
+    email: raw.email ?? null,
+    content: raw.content ?? raw.text ?? raw.raw_text ?? "",
+  };
+}
+
+const SCREENING_CACHE_KEY = "tara_last_screening";
+
+export function cacheScreening(result: ScreenResponse) {
+  try {
+    sessionStorage.setItem(SCREENING_CACHE_KEY, JSON.stringify(result));
+  } catch {
+    /* ignore */
+  }
+}
+
+export function readCachedCandidate(
+  documentId: string,
+): { candidate: ScreenedCandidate; jobTitle: string } | null {
+  try {
+    const raw = sessionStorage.getItem(SCREENING_CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as ScreenResponse;
+    const candidate = parsed.candidates.find((c) => c.document_id === documentId);
+    return candidate ? { candidate, jobTitle: parsed.job_title } : null;
+  } catch {
+    return null;
+  }
+}
