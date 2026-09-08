@@ -27,16 +27,6 @@ export type ScreenResponse = {
   candidates: ScreenedCandidate[];
 };
 
-function authHeaders(): Record<string, string> {
-  if (typeof window === "undefined") return {};
-  try {
-    const token = window.localStorage.getItem("tara_token");
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  } catch {
-    return {};
-  }
-}
-
 async function post<T>(
   path: string,
   body: unknown,
@@ -48,24 +38,17 @@ async function post<T>(
   try {
     const res = await fetch(`${API_BASE}${path}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", ...authHeaders() },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
       signal: controller.signal,
     });
-    if (res.status === 401) {
-      try {
-        window.localStorage.removeItem("tara_token");
-      } catch {
-        /* ignore */
-      }
-      throw new Error("Your session expired. Please log in again.");
-    }
     if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
     return (await res.json()) as T;
   } finally {
     clearTimeout(timeout);
   }
 }
+
 
 export const searchCandidates = (query: string) =>
   post<SearchResponse>("/agent/search-candidates", { query }, 30_000);

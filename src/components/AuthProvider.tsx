@@ -9,20 +9,14 @@ import {
   type ReactNode,
 } from "react";
 
-import {
-  clearToken,
-  fetchMe,
-  logoutRequest,
-  setToken,
-  type AuthUser,
-} from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
+import { loadProfile, signOutRequest, type AuthUser } from "@/lib/auth";
 
 type Status = "loading" | "signed-in" | "signed-out";
 
 type AuthContextValue = {
   user: AuthUser | null;
   status: Status;
-  signIn: (token: string, user: AuthUser) => void;
   signOut: () => Promise<void>;
 };
 
@@ -40,32 +34,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let active = true;
-    fetchMe().then((me) => {
+
+    const apply = async (
+      sessionUser:
+        | { id: string; email?: string | undefined; user_metadata?: Record<string, unknown> }
+        | null
+        | undefined,
+    ) => {
+      if (!sessionUser) {
+        if (!active) return;
+        setUser(null);
+        setStatus("signed-out");
+        return;
+      }
+      const metaName = (sessionUser.user_metadata?.["name"] ??
+        sessionUser.user_metadata?.["full_name"]) as string | undefined;
+      const profile = await loadProfile(
+        sessionUser.id,
+        sessionUser.email ?? "",
+        metaName ?? null,
+      );
       if (!active) return;
-      setUser(me);
-      setStatus(me ? "signed-in" : "signed-out");
+      setUser(profile);
+      setStatus("signed-in");
+    };
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      void apply(session?.user ?? null);
     });
+
+    void supabase.auth.getSession().then(({ data }) => {
+      void apply(data.session?.user ?? null);
+    });
+
     return () => {
       active = false;
+      sub.subscription.unsubscribe();
     };
-  }, []);
-
-  const signIn = useCallback((token: string, nextUser: AuthUser) => {
-    setToken(token);
-    setUser(nextUser);
-    setStatus("signed-in");
   }, []);
 
   const signOut = useCallback(async () => {
     setUser(null);
     setStatus("signed-out");
-    clearToken();
-    await logoutRequest();
+    await signOutRequest();
   }, []);
 
   const value = useMemo(
-    () => ({ user, status, signIn, signOut }),
-    [user, status, signIn, signOut],
+    () => ({ user, status, signOut }),
+    [user, status, signOut],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
