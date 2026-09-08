@@ -199,49 +199,7 @@ function RootComponent() {
               Tara
             </span>
           </Link>
-          <nav className="flex items-center gap-1">
-            <Link
-              to="/"
-              className={navLink}
-              activeProps={{
-                className:
-                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
-              }}
-              activeOptions={{ exact: true }}
-            >
-              Home
-            </Link>
-            <Link
-              to="/dashboard"
-              className={navLink}
-              activeProps={{
-                className:
-                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
-              }}
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/chat"
-              className={navLink}
-              activeProps={{
-                className:
-                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
-              }}
-            >
-              Candidate Search
-            </Link>
-            <Link
-              to="/screening"
-              className={navLink}
-              activeProps={{
-                className:
-                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
-              }}
-            >
-              Resume Screening
-            </Link>
-          </nav>
+          <MainNav />
           <ThemeToggle />
 
         </div>
