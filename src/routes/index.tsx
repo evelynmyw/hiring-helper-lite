@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ClipboardCheck, Search } from "lucide-react";
+import { LogIn } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,20 +42,13 @@ function LandingPage() {
           queries and scores every resume with a transparent breakdown.
         </p>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="mt-8 flex justify-center">
           <Link
-            to="/chat"
-            className="glass flare-ring inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-22px_var(--sappan-rose)]"
+            to="/dashboard"
+            className="glass flare-ring inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3 text-sm font-semibold text-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-22px_var(--sappan-rose)]"
           >
-            <Search className="h-4 w-4" />
-            Search candidates
-          </Link>
-          <Link
-            to="/screening"
-            className="glass flare-ring inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-22px_var(--sappan-rose)]"
-          >
-            <ClipboardCheck className="h-4 w-4" />
-            Screen resumes
+            <LogIn className="h-4 w-4" />
+            Log in
           </Link>
         </div>
       </section>
