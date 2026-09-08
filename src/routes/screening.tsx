@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { RequireAuth } from "@/components/AuthProvider";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -33,7 +34,7 @@ export const Route = createFileRoute("/screening")({
       },
     ],
   }),
-  component: ScreeningPage,
+  component: GuardedScreeningPage,
 });
 
 function scoreTone(score: number) {
@@ -246,5 +247,14 @@ function ScreeningPage() {
         </div>
       )}
     </div>
+  );
+}
+
+
+function GuardedScreeningPage() {
+  return (
+    <RequireAuth>
+      <ScreeningPage />
+    </RequireAuth>
   );
 }
