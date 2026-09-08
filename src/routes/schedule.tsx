@@ -145,11 +145,7 @@ function Heatmap() {
 }
 
 function SchedulePage() {
-  const [view, setView] = useState<"list" | "heatmap">("list");
   const total = DAYS.reduce((n, d) => n + d.events.length, 0);
-
-  const tab =
-    "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors";
 
   return (
     <AppShell>
@@ -162,67 +158,49 @@ function SchedulePage() {
             {total} interviews scheduled this week
           </p>
         </div>
-
-        <div className="flex gap-1 rounded-xl border border-border/60 p-1">
-          <button
-            type="button"
-            onClick={() => setView("list")}
-            className={`${tab} ${view === "list" ? "bg-secondary/70 text-foreground" : "text-muted-foreground hover:text-foreground"}`}
-          >
-            <CalendarDays className="h-4 w-4" />
-            List
-          </button>
-          <button
-            type="button"
-            onClick={() => setView("heatmap")}
-            className={`${tab} ${view === "heatmap" ? "bg-secondary/70 text-foreground" : "text-muted-foreground hover:text-foreground"}`}
-          >
-            <Grid3X3 className="h-4 w-4" />
-            Heatmap
-          </button>
-        </div>
       </header>
 
-      {view === "heatmap" ? <Heatmap /> : null}
+      <div className="space-y-8">
+        <Heatmap />
 
-      <div className={`space-y-4 ${view === "heatmap" ? "hidden" : ""}`}>
+        <div className="space-y-4">
+          {DAYS.map((d) => (
+            <section key={d.day} className="glass rounded-2xl p-5">
+              <div className="flex items-baseline justify-between">
+                <h2 className="text-base font-semibold">{d.day}</h2>
+                <span className="text-xs text-muted-foreground">{d.date}</span>
+              </div>
 
-        {DAYS.map((d) => (
-          <section key={d.day} className="glass rounded-2xl p-5">
-            <div className="flex items-baseline justify-between">
-              <h2 className="text-base font-semibold">{d.day}</h2>
-              <span className="text-xs text-muted-foreground">{d.date}</span>
-            </div>
-
-            {d.events.length === 0 ? (
-              <p className="mt-4 text-sm text-muted-foreground">
-                No interviews scheduled.
-              </p>
-            ) : (
-              <ul className="mt-4 space-y-3">
-                {d.events.map((e) => (
-                  <li
-                    key={`${d.day}-${e.time}`}
-                    className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-xl border border-border/60 px-4 py-3"
-                  >
-                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
-                      <Clock className="h-3.5 w-3.5" />
-                      {e.time}
-                    </span>
-                    <span className="text-sm font-medium">{e.candidate}</span>
-                    <span className="text-xs text-muted-foreground">
-                      {e.stage} · {e.panel}
-                    </span>
-                    <span className="gradient-badge ml-auto inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium text-foreground">
-                      <Video className="h-3 w-3" />
-                      {e.mode}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-        ))}
+              {d.events.length === 0 ? (
+                <p className="mt-4 text-sm text-muted-foreground">
+                  No interviews scheduled.
+                </p>
+              ) : (
+                <ul className="mt-4 space-y-3">
+                  {d.events.map((e) => (
+                    <li
+                      key={`${d.day}-${e.time}`}
+                      className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-xl border border-border/60 px-4 py-3"
+                    >
+                      <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
+                        <Clock className="h-3.5 w-3.5" />
+                        {e.time}
+                      </span>
+                      <span className="text-sm font-medium">{e.candidate}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {e.stage} · {e.panel}
+                      </span>
+                      <span className="gradient-badge ml-auto inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium text-foreground">
+                        <Video className="h-3 w-3" />
+                        {e.mode}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+        </div>
       </div>
     </AppShell>
   );
