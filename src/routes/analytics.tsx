@@ -76,16 +76,18 @@ function AnalyticsPage() {
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         <section className="glass rounded-2xl p-6 lg:col-span-2">
           <h2 className="text-base font-semibold">Applications per month</h2>
-          <div className="mt-6 flex h-52 items-end gap-4">
+          <div className="mt-6 flex h-52 gap-4">
             {MONTHS.map((m) => (
-              <div key={m.month} className="flex flex-1 flex-col items-center gap-2">
+              <div key={m.month} className="flex h-full flex-1 flex-col items-center gap-2">
                 <span className="text-xs text-muted-foreground">
                   {m.applications}
                 </span>
-                <div
-                  className="flare-gradient w-full rounded-t-lg"
-                  style={{ height: `${(m.applications / max) * 100}%` }}
-                />
+                <div className="flex w-full flex-1 items-end">
+                  <div
+                    className="flare-gradient w-full rounded-t-lg"
+                    style={{ height: `${(m.applications / max) * 100}%` }}
+                  />
+                </div>
                 <span className="text-xs font-medium">{m.month}</span>
               </div>
             ))}
