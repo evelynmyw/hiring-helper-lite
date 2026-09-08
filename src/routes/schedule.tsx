@@ -149,9 +149,15 @@ function Heatmap() {
 
       <div className="mt-5 overflow-x-auto">
         <div className="inline-block min-w-full">
-          <div className="flex justify-between pl-10 pr-1 text-[11px] text-muted-foreground">
-            {MONTH_LABELS.map((m) => (
-              <span key={m}>{m}</span>
+          <div className="relative ml-10 mr-1 h-4 text-[11px] text-muted-foreground">
+            {MONTH_TICKS.map((t) => (
+              <span
+                key={t.label + t.col}
+                className="absolute"
+                style={{ left: `${(t.col / WEEKS) * 100}%` }}
+              >
+                {t.label}
+              </span>
             ))}
           </div>
 
@@ -164,13 +170,13 @@ function Heatmap() {
               ))}
             </div>
             {GRID.map((col, w) => (
-              <div key={w} className="flex flex-col gap-1">
+              <div key={w} className="flex flex-1 flex-col gap-1">
                 {col.map((count, d) => (
                   <span
                     key={d}
-                    title={`${count} interview${count === 1 ? "" : "s"} · ${WEEKDAYS[d]}, week ${w + 1}`}
+                    title={`${count} interview${count === 1 ? "" : "s"} · ${TOOLTIP_FMT.format(dateAt(w, d))}`}
                     style={cellStyle(count)}
-                    className="h-3.5 w-3.5 rounded-[3px] transition-transform hover:scale-125"
+                    className="h-3.5 w-full rounded-[3px] transition-transform hover:scale-110"
                   />
                 ))}
               </div>
