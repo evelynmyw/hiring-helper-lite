@@ -5,7 +5,7 @@ import { Loader2, LogIn, UserPlus } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 import { login, register } from "@/lib/auth";
 
-type Search = { redirect?: string };
+type Search = { redirect?: string | undefined };
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>): Search => ({
