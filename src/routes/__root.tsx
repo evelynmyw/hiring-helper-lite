@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import taraLogo from "../assets/tara-logo.png";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { AuthProvider, useAuth } from "@/components/AuthProvider";
 
 function NotFoundComponent() {
   return (
@@ -135,6 +136,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthProvider>
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
@@ -198,49 +200,7 @@ function RootComponent() {
               Tara
             </span>
           </Link>
-          <nav className="flex items-center gap-1">
-            <Link
-              to="/"
-              className={navLink}
-              activeProps={{
-                className:
-                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
-              }}
-              activeOptions={{ exact: true }}
-            >
-              Home
-            </Link>
-            <Link
-              to="/dashboard"
-              className={navLink}
-              activeProps={{
-                className:
-                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
-              }}
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/chat"
-              className={navLink}
-              activeProps={{
-                className:
-                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
-              }}
-            >
-              Candidate Search
-            </Link>
-            <Link
-              to="/screening"
-              className={navLink}
-              activeProps={{
-                className:
-                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
-              }}
-            >
-              Resume Screening
-            </Link>
-          </nav>
+          <MainNav />
           <ThemeToggle />
 
         </div>
@@ -249,7 +209,47 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       </div>
+      </AuthProvider>
     </QueryClientProvider>
+  );
+}
+
+const activeNav = {
+  className:
+    "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
+};
+
+function MainNav() {
+  const { status } = useAuth();
+
+  return (
+    <nav className="flex items-center gap-1">
+      <Link
+        to="/"
+        className={navLink}
+        activeProps={activeNav}
+        activeOptions={{ exact: true }}
+      >
+        Home
+      </Link>
+      {status === "signed-in" ? (
+        <>
+          <Link to="/dashboard" className={navLink} activeProps={activeNav}>
+            Dashboard
+          </Link>
+          <Link to="/chat" className={navLink} activeProps={activeNav}>
+            Candidate Search
+          </Link>
+          <Link to="/screening" className={navLink} activeProps={activeNav}>
+            Resume Screening
+          </Link>
+        </>
+      ) : status === "signed-out" ? (
+        <Link to="/auth" className={navLink} activeProps={activeNav}>
+          Log in
+        </Link>
+      ) : null}
+    </nav>
   );
 }
 

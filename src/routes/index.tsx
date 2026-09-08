@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LogIn } from "lucide-react";
 
+import { useAuth } from "@/components/AuthProvider";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -25,6 +27,8 @@ export const Route = createFileRoute("/")({
 });
 
 function LandingPage() {
+  const { status } = useAuth();
+
   return (
     <main className="relative flex min-h-screen flex-col">
       {/* Animated solar flare flow backdrop */}
@@ -44,11 +48,11 @@ function LandingPage() {
 
         <div className="mt-8 flex justify-center">
           <Link
-            to="/dashboard"
+            to={status === "signed-in" ? "/dashboard" : "/auth"}
             className="glass flare-ring inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3 text-sm font-semibold text-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-22px_var(--sappan-rose)]"
           >
             <LogIn className="h-4 w-4" />
-            Log in
+            {status === "signed-in" ? "Go to dashboard" : "Log in"}
           </Link>
         </div>
       </section>

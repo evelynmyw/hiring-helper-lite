@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { RequireAuth } from "@/components/AuthProvider";
 import { useEffect, useRef, useState } from "react";
 import { Send } from "lucide-react";
 import { Markdown } from "@/components/Markdown";
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/chat")({
       },
     ],
   }),
-  component: ChatPage,
+  component: GuardedChatPage,
 });
 
 type Msg = { id: number; role: "user" | "assistant" | "error"; content: string };
@@ -180,5 +181,14 @@ function ChatPage() {
         </div>
       </form>
     </div>
+  );
+}
+
+
+function GuardedChatPage() {
+  return (
+    <RequireAuth>
+      <ChatPage />
+    </RequireAuth>
   );
 }

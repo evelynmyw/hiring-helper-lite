@@ -1,4 +1,5 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   BarChart3,
   Briefcase,
@@ -8,6 +9,7 @@ import {
   Globe,
   HelpCircle,
   LayoutDashboard,
+  LogOut,
   MessageSquare,
   Settings,
   UserRound,
@@ -17,6 +19,8 @@ import {
 import type { ReactNode } from "react";
 
 import taraLogo from "../assets/tara-logo.png";
+import { RequireAuth, useAuth } from "@/components/AuthProvider";
+import { initials } from "@/lib/auth";
 
 type NavItem = {
   label: string;
@@ -98,27 +102,59 @@ export function AppSidebar() {
         )}
       </nav>
 
-      <div className="mt-3 flex items-center gap-3 rounded-xl border border-border/60 px-3 py-2">
-        <span className="flare-gradient flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white">
-          E
-        </span>
-        <div className="leading-tight">
-          <p className="text-sm font-medium text-foreground">Evelyn</p>
-          <p className="text-xs text-muted-foreground">User</p>
-        </div>
-      </div>
+      <UserCard />
     </aside>
+  );
+}
+
+function UserCard() {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await signOut();
+    await navigate({ to: "/auth", replace: true });
+  }
+
+  return (
+    <div className="mt-3 flex items-center gap-3 rounded-xl border border-border/60 px-3 py-2">
+      <span className="flare-gradient flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white">
+        {initials(user)}
+      </span>
+      <div className="min-w-0 flex-1 leading-tight">
+        <p className="truncate text-sm font-medium text-foreground">
+          {user?.name?.trim() || user?.email || "Signed in"}
+        </p>
+        <p className="truncate text-xs text-muted-foreground">
+          {user?.email ?? ""}
+        </p>
+      </div>
+      <button
+        type="button"
+        onClick={handleSignOut}
+        aria-label="Log out"
+        title="Log out"
+        className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-secondary/60 hover:text-foreground"
+      >
+        <LogOut className="h-4 w-4" />
+      </button>
+    </div>
   );
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
-    <div
-      className="mx-auto flex w-full max-w-7xl gap-6 px-4"
-      style={{ ["--sidebar-width" as string]: "16rem" }}
-    >
-      <AppSidebar />
-      <main className="min-w-0 flex-1 py-8">{children}</main>
-    </div>
+    <RequireAuth>
+      <div
+        className="mx-auto flex w-full max-w-7xl gap-6 px-4"
+        style={{ ["--sidebar-width" as string]: "16rem" }}
+      >
+        <AppSidebar />
+        <main className="min-w-0 flex-1 py-8">{children}</main>
+      </div>
+    </RequireAuth>
   );
 }
