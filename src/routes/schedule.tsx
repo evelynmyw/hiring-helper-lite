@@ -59,15 +59,40 @@ const DAYS = [
 ];
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const WEEKS = 18;
-const MONTH_LABELS = ["May", "Jun", "Jul", "Aug", "Sep"];
 
-// Deterministic demo activity: interviews per day over the last 18 weeks.
+// Build the grid ending at the current week, going back WEEKS columns,
+// so Aug/Sep (and every month) are fully covered with real dates.
+const WEEKS = 22;
+
+function mondayOfCurrentWeek(): Date {
+  const now = new Date();
+  const day = (now.getDay() + 6) % 7; // Mon=0 … Sun=6
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - day);
+  monday.setHours(0, 0, 0, 0);
+  return monday;
+}
+
+const CURRENT_MONDAY = mondayOfCurrentWeek();
+
+function dateAt(w: number, d: number): Date {
+  const date = new Date(CURRENT_MONDAY);
+  date.setDate(date.getDate() - (WEEKS - 1 - w) * 7 + d);
+  return date;
+}
+
+// Deterministic demo activity: interviews per day over the last weeks.
 function heatmapData() {
   const grid: number[][] = [];
   for (let w = 0; w < WEEKS; w++) {
     const col: number[] = [];
     for (let d = 0; d < 7; d++) {
+      const date = dateAt(w, d);
+      const future = date > new Date();
+      if (future) {
+        col.push(0);
+        continue;
+      }
       const seed = (w * 7 + d) * 2654435761;
       const r = ((seed >>> 8) % 100) / 100;
       const weekend = d >= 5;
@@ -82,6 +107,27 @@ function heatmapData() {
 }
 
 const GRID = heatmapData();
+
+// Month label positioned at the first week column where that month appears.
+const MONTH_TICKS: { label: string; col: number }[] = [];
+{
+  let lastMonth = -1;
+  for (let w = 0; w < WEEKS; w++) {
+    const m = dateAt(w, 0).getMonth();
+    if (m !== lastMonth) {
+      MONTH_TICKS.push({
+        label: dateAt(w, 0).toLocaleString("en", { month: "short" }),
+        col: w,
+      });
+      lastMonth = m;
+    }
+  }
+}
+
+const TOOLTIP_FMT = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "numeric",
+});
 
 function cellStyle(count: number) {
   if (count === 0) return { background: "color-mix(in oklab, var(--foreground) 7%, transparent)" };
@@ -103,9 +149,15 @@ function Heatmap() {
 
       <div className="mt-5 overflow-x-auto">
         <div className="inline-block min-w-full">
-          <div className="flex justify-between pl-10 pr-1 text-[11px] text-muted-foreground">
-            {MONTH_LABELS.map((m) => (
-              <span key={m}>{m}</span>
+          <div className="relative ml-10 mr-1 h-4 text-[11px] text-muted-foreground">
+            {MONTH_TICKS.map((t) => (
+              <span
+                key={t.label + t.col}
+                className="absolute"
+                style={{ left: `${(t.col / WEEKS) * 100}%` }}
+              >
+                {t.label}
+              </span>
             ))}
           </div>
 
@@ -118,13 +170,13 @@ function Heatmap() {
               ))}
             </div>
             {GRID.map((col, w) => (
-              <div key={w} className="flex flex-col gap-1">
+              <div key={w} className="flex flex-1 flex-col gap-1">
                 {col.map((count, d) => (
                   <span
                     key={d}
-                    title={`${count} interview${count === 1 ? "" : "s"} · ${WEEKDAYS[d]}, week ${w + 1}`}
+                    title={`${count} interview${count === 1 ? "" : "s"} · ${TOOLTIP_FMT.format(dateAt(w, d))}`}
                     style={cellStyle(count)}
-                    className="h-3.5 w-3.5 rounded-[3px] transition-transform hover:scale-125"
+                    className="h-3.5 w-full rounded-[3px] transition-transform hover:scale-110"
                   />
                 ))}
               </div>
