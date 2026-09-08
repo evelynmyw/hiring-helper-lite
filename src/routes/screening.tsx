@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/accordion";
 import {
   displayName,
+  cacheScreening,
   screenCandidates,
   type ScreenResponse,
   type ScreenedCandidate,
@@ -141,7 +142,9 @@ function ScreeningPage() {
     setError(null);
     setResult(null);
     try {
-      setResult(await screenCandidates(jd.trim()));
+      const res = await screenCandidates(jd.trim());
+      cacheScreening(res);
+      setResult(res);
     } catch {
       setError("Something went wrong, please try again.");
     } finally {
