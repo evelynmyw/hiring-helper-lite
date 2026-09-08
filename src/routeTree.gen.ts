@@ -18,6 +18,7 @@ import { Route as EmployeesRouteImport } from './routes/employees'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as ScheduleRouteImport } from './routes/schedule'
 import { Route as ScreeningRouteImport } from './routes/screening'
+import { Route as CandidatesDocumentIdRouteImport } from './routes/candidates.$documentId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +65,11 @@ const ScreeningRoute = ScreeningRouteImport.update({
   path: '/screening',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CandidatesDocumentIdRoute = CandidatesDocumentIdRouteImport.update({
+  id: '/candidates/$documentId',
+  path: '/candidates/$documentId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/jobs': typeof JobsRoute
   '/schedule': typeof ScheduleRoute
   '/screening': typeof ScreeningRoute
+  '/candidates/$documentId': typeof CandidatesDocumentIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/jobs': typeof JobsRoute
   '/schedule': typeof ScheduleRoute
   '/screening': typeof ScreeningRoute
+  '/candidates/$documentId': typeof CandidatesDocumentIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/jobs': typeof JobsRoute
   '/schedule': typeof ScheduleRoute
   '/screening': typeof ScreeningRoute
+  '/candidates/$documentId': typeof CandidatesDocumentIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/jobs'
     | '/schedule'
     | '/screening'
+    | '/candidates/$documentId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/jobs'
     | '/schedule'
     | '/screening'
+    | '/candidates/$documentId'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/jobs'
     | '/schedule'
     | '/screening'
+    | '/candidates/$documentId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,6 +157,7 @@ export interface RootRouteChildren {
   JobsRoute: typeof JobsRoute
   ScheduleRoute: typeof ScheduleRoute
   ScreeningRoute: typeof ScreeningRoute
+  CandidatesDocumentIdRoute: typeof CandidatesDocumentIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScreeningRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/candidates/$documentId': {
+      id: '/candidates/$documentId'
+      path: '/candidates/$documentId'
+      fullPath: '/candidates/$documentId'
+      preLoaderRoute: typeof CandidatesDocumentIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   JobsRoute: JobsRoute,
   ScheduleRoute: ScheduleRoute,
   ScreeningRoute: ScreeningRoute,
+  CandidatesDocumentIdRoute: CandidatesDocumentIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

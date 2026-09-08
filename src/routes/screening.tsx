@@ -58,11 +58,25 @@ function CandidateCard({ c }: { c: ScreenedCandidate }) {
             <span className="flare-gradient flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white">
               {c.rank}
             </span>
-            <h3 className="truncate text-base font-semibold">{displayName(c)}</h3>
+            <Link
+              to="/candidates/$documentId"
+              params={{ documentId: c.document_id }}
+              className="truncate text-base font-semibold hover:underline"
+            >
+              {displayName(c)}
+            </Link>
           </div>
           {c.email && (
             <p className="mt-1 truncate text-xs text-muted-foreground">{c.email}</p>
           )}
+          <Link
+            to="/candidates/$documentId"
+            params={{ documentId: c.document_id }}
+            className="mt-1 inline-flex items-center gap-1 text-xs text-primary hover:underline"
+          >
+            View full resume
+            <ArrowRight className="h-3 w-3" />
+          </Link>
         </div>
         <div className="text-right">
           <div className={cn("text-3xl font-bold leading-none", scoreTone(c.overall_score))}>
