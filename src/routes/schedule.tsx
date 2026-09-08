@@ -60,7 +60,20 @@ const DAYS = [
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const WEEKS = 18;
-const MONTH_LABELS = ["May", "Jun", "Jul", "Aug", "Sep"];
+
+// Month boundaries for the 18-week demo grid (May -> Sep).
+// Labels are shown above the first week of each month.
+const MONTH_LABELS: string[] = [];
+const MONTH_STARTS: Record<number, string> = {
+  0: "May",
+  5: "Jun",
+  9: "Jul",
+  13: "Aug",
+  17: "Sep",
+};
+for (let w = 0; w < WEEKS; w++) {
+  MONTH_LABELS.push(MONTH_STARTS[w] ?? "");
+}
 
 // Deterministic demo activity: interviews per day over the last 18 weeks.
 function heatmapData() {
@@ -103,9 +116,11 @@ function Heatmap() {
 
       <div className="mt-5 overflow-x-auto">
         <div className="inline-block min-w-full">
-          <div className="flex justify-between pl-10 pr-1 text-[11px] text-muted-foreground">
-            {MONTH_LABELS.map((m) => (
-              <span key={m}>{m}</span>
+          <div className="flex gap-1 pl-10 text-[11px] text-muted-foreground">
+            {MONTH_LABELS.map((m, i) => (
+              <span key={i} className="h-4 w-3.5 text-left">
+                {m}
+              </span>
             ))}
           </div>
 
