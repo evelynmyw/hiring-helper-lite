@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Clock, Video } from "lucide-react";
+import { CalendarDays, Clock, Grid3X3, Video } from "lucide-react";
+import { useState } from "react";
 
 import { AppShell } from "@/components/AppSidebar";
+
 
 export const Route = createFileRoute("/schedule")({
   head: () => ({
