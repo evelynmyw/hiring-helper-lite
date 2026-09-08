@@ -240,16 +240,6 @@ function RootComponent() {
             >
               Resume Screening
             </Link>
-            <Link
-              to="/login"
-              className={navLink}
-              activeProps={{
-                className:
-                  "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
-              }}
-            >
-              Sign in
-            </Link>
           </nav>
           <ThemeToggle />
 

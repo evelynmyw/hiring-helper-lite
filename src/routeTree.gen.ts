@@ -15,7 +15,6 @@ import { Route as ChatRouteImport } from './routes/chat'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as EmployeesRouteImport } from './routes/employees'
 import { Route as JobsRouteImport } from './routes/jobs'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as ScheduleRouteImport } from './routes/schedule'
 import { Route as ScreeningRouteImport } from './routes/screening'
 
@@ -49,11 +48,6 @@ const JobsRoute = JobsRouteImport.update({
   path: '/jobs',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ScheduleRoute = ScheduleRouteImport.update({
   id: '/schedule',
   path: '/schedule',
@@ -72,7 +66,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/employees': typeof EmployeesRoute
   '/jobs': typeof JobsRoute
-  '/login': typeof LoginRoute
   '/schedule': typeof ScheduleRoute
   '/screening': typeof ScreeningRoute
 }
@@ -83,7 +76,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/employees': typeof EmployeesRoute
   '/jobs': typeof JobsRoute
-  '/login': typeof LoginRoute
   '/schedule': typeof ScheduleRoute
   '/screening': typeof ScreeningRoute
 }
@@ -95,7 +87,6 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/employees': typeof EmployeesRoute
   '/jobs': typeof JobsRoute
-  '/login': typeof LoginRoute
   '/schedule': typeof ScheduleRoute
   '/screening': typeof ScreeningRoute
 }
@@ -108,7 +99,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/employees'
     | '/jobs'
-    | '/login'
     | '/schedule'
     | '/screening'
   fileRoutesByTo: FileRoutesByTo
@@ -119,7 +109,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/employees'
     | '/jobs'
-    | '/login'
     | '/schedule'
     | '/screening'
   id:
@@ -130,7 +119,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/employees'
     | '/jobs'
-    | '/login'
     | '/schedule'
     | '/screening'
   fileRoutesById: FileRoutesById
@@ -142,7 +130,6 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   EmployeesRoute: typeof EmployeesRoute
   JobsRoute: typeof JobsRoute
-  LoginRoute: typeof LoginRoute
   ScheduleRoute: typeof ScheduleRoute
   ScreeningRoute: typeof ScreeningRoute
 }
@@ -191,13 +178,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/schedule': {
       id: '/schedule'
       path: '/schedule'
@@ -222,7 +202,6 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   EmployeesRoute: EmployeesRoute,
   JobsRoute: JobsRoute,
-  LoginRoute: LoginRoute,
   ScheduleRoute: ScheduleRoute,
   ScreeningRoute: ScreeningRoute,
 }
