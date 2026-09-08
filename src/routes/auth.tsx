@@ -3,7 +3,8 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Loader2, LogIn, UserPlus } from "lucide-react";
 
 import { useAuth } from "@/components/AuthProvider";
-import { login, register } from "@/lib/auth";
+import { lovable } from "@/integrations/lovable/index";
+import { signInWithPassword, signUpWithPassword } from "@/lib/auth";
 
 type Search = { redirect?: string | undefined };
 
@@ -36,7 +37,7 @@ const inputClass =
   "w-full rounded-xl border border-border/60 bg-background/60 px-3 py-2 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground/70 focus:border-transparent focus:ring-2 focus:ring-[var(--sappan-rose)]";
 
 function AuthPage() {
-  const { status, signIn } = useAuth();
+  const { status } = useAuth();
   const navigate = useNavigate();
   const { redirect } = Route.useSearch();
 
@@ -45,6 +46,7 @@ function AuthPage() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
@@ -57,20 +59,42 @@ function AuthPage() {
     event.preventDefault();
     if (pending) return;
     setError(null);
+    setNotice(null);
     setPending(true);
     try {
-      const res =
-        mode === "login"
-          ? await login(email.trim(), password)
-          : await register(email.trim(), name.trim(), password);
-      signIn(res.access_token, res.user);
-      await navigate({ to: redirect ?? "/dashboard", replace: true });
+      if (mode === "login") {
+        await signInWithPassword(email.trim(), password);
+      } else {
+        const { needsConfirmation } = await signUpWithPassword(
+          email.trim(),
+          password,
+          name.trim(),
+        );
+        if (needsConfirmation) {
+          setNotice(
+            "Check your inbox to confirm your email, then come back and log in.",
+          );
+        }
+      }
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Something went wrong, please try again",
+        err instanceof Error
+          ? err.message
+          : "Something went wrong, please try again",
       );
     } finally {
       setPending(false);
+    }
+  }
+
+  async function handleGoogle() {
+    setError(null);
+    setNotice(null);
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
+      setError("Google sign-in failed, please try again.");
     }
   }
 
@@ -88,7 +112,39 @@ function AuthPage() {
             : "Every recruiter gets their own account."}
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+        <button
+          type="button"
+          onClick={() => void handleGoogle()}
+          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/60 bg-background/60 px-4 py-2.5 text-sm font-semibold text-foreground transition-all hover:-translate-y-0.5"
+        >
+          <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
+            <path
+              fill="#4285F4"
+              d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.4a5.5 5.5 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.6-5.2 3.6-8.8Z"
+            />
+            <path
+              fill="#34A853"
+              d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1A12 12 0 0 0 12 24Z"
+            />
+            <path
+              fill="#FBBC05"
+              d="M5.4 14.4a7.2 7.2 0 0 1 0-4.6V6.7H1.4a12 12 0 0 0 0 10.8l4-3.1Z"
+            />
+            <path
+              fill="#EA4335"
+              d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.4 6.7l4 3.1C6.3 6.9 8.9 4.8 12 4.8Z"
+            />
+          </svg>
+          Continue with Google
+        </button>
+
+        <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-wider text-muted-foreground">
+          <span className="h-px flex-1 bg-border/60" />
+          or
+          <span className="h-px flex-1 bg-border/60" />
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           {mode === "register" && (
             <div>
               <label
@@ -159,6 +215,12 @@ function AuthPage() {
             </p>
           )}
 
+          {notice && (
+            <p className="rounded-xl border border-border/60 bg-background/60 px-3 py-2 text-sm text-foreground">
+              {notice}
+            </p>
+          )}
+
           <button
             type="submit"
             disabled={pending}
@@ -182,6 +244,7 @@ function AuthPage() {
             onClick={() => {
               setMode(mode === "login" ? "register" : "login");
               setError(null);
+              setNotice(null);
             }}
             className="font-semibold text-foreground underline-offset-4 hover:underline"
           >
