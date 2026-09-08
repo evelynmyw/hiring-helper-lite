@@ -59,15 +59,40 @@ const DAYS = [
 ];
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const WEEKS = 18;
-const MONTH_LABELS = ["May", "Jun", "Jul", "Aug", "Sep"];
 
-// Deterministic demo activity: interviews per day over the last 18 weeks.
+// Build the grid ending at the current week, going back WEEKS columns,
+// so Aug/Sep (and every month) are fully covered with real dates.
+const WEEKS = 22;
+
+function mondayOfCurrentWeek(): Date {
+  const now = new Date();
+  const day = (now.getDay() + 6) % 7; // Mon=0 … Sun=6
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - day);
+  monday.setHours(0, 0, 0, 0);
+  return monday;
+}
+
+const CURRENT_MONDAY = mondayOfCurrentWeek();
+
+function dateAt(w: number, d: number): Date {
+  const date = new Date(CURRENT_MONDAY);
+  date.setDate(date.getDate() - (WEEKS - 1 - w) * 7 + d);
+  return date;
+}
+
+// Deterministic demo activity: interviews per day over the last weeks.
 function heatmapData() {
   const grid: number[][] = [];
   for (let w = 0; w < WEEKS; w++) {
     const col: number[] = [];
     for (let d = 0; d < 7; d++) {
+      const date = dateAt(w, d);
+      const future = date > new Date();
+      if (future) {
+        col.push(0);
+        continue;
+      }
       const seed = (w * 7 + d) * 2654435761;
       const r = ((seed >>> 8) % 100) / 100;
       const weekend = d >= 5;
@@ -82,6 +107,27 @@ function heatmapData() {
 }
 
 const GRID = heatmapData();
+
+// Month label positioned at the first week column where that month appears.
+const MONTH_TICKS: { label: string; col: number }[] = [];
+{
+  let lastMonth = -1;
+  for (let w = 0; w < WEEKS; w++) {
+    const m = dateAt(w, 0).getMonth();
+    if (m !== lastMonth) {
+      MONTH_TICKS.push({
+        label: dateAt(w, 0).toLocaleString("en", { month: "short" }),
+        col: w,
+      });
+      lastMonth = m;
+    }
+  }
+}
+
+const TOOLTIP_FMT = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "numeric",
+});
 
 function cellStyle(count: number) {
   if (count === 0) return { background: "color-mix(in oklab, var(--foreground) 7%, transparent)" };
