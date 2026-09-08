@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { RequireAuth } from "@/components/AuthProvider";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/accordion";
 import {
   displayName,
+  cacheScreening,
   screenCandidates,
   type ScreenResponse,
   type ScreenedCandidate,
@@ -58,11 +59,25 @@ function CandidateCard({ c }: { c: ScreenedCandidate }) {
             <span className="flare-gradient flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white">
               {c.rank}
             </span>
-            <h3 className="truncate text-base font-semibold">{displayName(c)}</h3>
+            <Link
+              to="/candidates/$documentId"
+              params={{ documentId: c.document_id }}
+              className="truncate text-base font-semibold hover:underline"
+            >
+              {displayName(c)}
+            </Link>
           </div>
           {c.email && (
             <p className="mt-1 truncate text-xs text-muted-foreground">{c.email}</p>
           )}
+          <Link
+            to="/candidates/$documentId"
+            params={{ documentId: c.document_id }}
+            className="mt-1 inline-flex items-center gap-1 text-xs text-primary hover:underline"
+          >
+            View full resume
+            <ArrowRight className="h-3 w-3" />
+          </Link>
         </div>
         <div className="text-right">
           <div className={cn("text-3xl font-bold leading-none", scoreTone(c.overall_score))}>
@@ -127,7 +142,9 @@ function ScreeningPage() {
     setError(null);
     setResult(null);
     try {
-      setResult(await screenCandidates(jd.trim()));
+      const res = await screenCandidates(jd.trim());
+      cacheScreening(res);
+      setResult(res);
     } catch {
       setError("Something went wrong, please try again.");
     } finally {
