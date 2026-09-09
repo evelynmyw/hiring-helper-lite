@@ -117,7 +117,7 @@ function CandidateCard({ c }: { c: ScreenedCandidate }) {
                       }}
                     />
                   </div>
-                  <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed text-muted-foreground">
+                  <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
                     {b.reasoning}
                   </p>
                 </div>
@@ -166,7 +166,7 @@ function ScreeningPage() {
           onChange={(e) => setJd(e.target.value)}
           rows={12}
           placeholder="Paste the full job description here — responsibilities, required skills, years of experience, education…"
-          className="w-full resize-y rounded-lg bg-transparent p-2 text-sm leading-relaxed outline-none placeholder:text-muted-foreground"
+          className="w-full resize-y rounded-lg bg-transparent p-2 text-base leading-relaxed outline-none placeholder:text-muted-foreground"
         />
         <div className="mt-3 flex items-center justify-between gap-4">
           <span className="text-xs text-muted-foreground">
