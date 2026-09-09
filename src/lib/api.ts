@@ -1,6 +1,22 @@
+import { supabase } from "@/integrations/supabase/client";
+
 const env = import.meta.env as unknown as { VITE_API_BASE_URL?: string };
 
 export const API_BASE = env.VITE_API_BASE_URL ?? "http://localhost:8000";
+
+/** Attach the current Supabase access token so the backend can authenticate us. */
+async function authHeaders(base: Record<string, string> = {}): Promise<Record<string, string>> {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  return token ? { ...base, Authorization: `Bearer ${token}` } : base;
+}
+
+/** Backend rejected our token -> clear the session and send the user to sign in. */
+async function handleUnauthorized(): Promise<never> {
+  await supabase.auth.signOut();
+  if (typeof window !== "undefined") window.location.href = "/auth";
+  throw new Error("Unauthorized");
+}
 
 export type SearchResponse = { query: string; answer: string };
 
@@ -38,10 +54,11 @@ async function post<T>(
   try {
     const res = await fetch(`${API_BASE}${path}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: await authHeaders({ "Content-Type": "application/json" }),
       body: JSON.stringify(body),
       signal: controller.signal,
     });
+    if (res.status === 401) return handleUnauthorized();
     if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
     return (await res.json()) as T;
   } finally {
@@ -70,7 +87,11 @@ async function get<T>(path: string, timeoutMs: number): Promise<T> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const res = await fetch(`${API_BASE}${path}`, { signal: controller.signal });
+    const res = await fetch(`${API_BASE}${path}`, {
+      headers: await authHeaders(),
+      signal: controller.signal,
+    });
+    if (res.status === 401) return handleUnauthorized();
     if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
     return (await res.json()) as T;
   } finally {
