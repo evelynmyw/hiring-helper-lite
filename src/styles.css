@@ -106,7 +106,7 @@
   --gradient-destructive: var(--destructive);
 
   /* Landing page editorial palette: dusty blue-gray wash + deep brown ink. */
-  --landing-bg: oklch(0.82 0.025 232);
+  --landing-bg: oklch(0.85 0.025 232);
   --landing-ink: oklch(0.32 0.04 55);
 }
 
@@ -254,30 +254,6 @@
 /* Landing page editorial marquee */
 .landing-bg {
   background-color: var(--landing-bg);
-  position: relative;
-}
-
-/* Subtle grain + vignette shadow for a photographic paper feel. */
-.landing-bg::before,
-.landing-bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.landing-bg::before {
-  opacity: 0.28;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
-}
-
-.landing-bg::after {
-  background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, color-mix(in oklab, var(--landing-ink) 10%, transparent), transparent 55%),
-    radial-gradient(ellipse 80% 55% at 50% 100%, color-mix(in oklab, var(--landing-ink) 12%, transparent), transparent 50%);
 }
 
 .landing-ink {
