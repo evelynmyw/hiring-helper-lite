@@ -65,7 +65,7 @@ function DashboardPage() {
     <AppShell>
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Recruitment <span className="text-primary">Dashboard</span>
+          Recruitment <span className="text-highlight">Dashboard</span>
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Monitor your hiring pipeline and team performance

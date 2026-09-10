@@ -54,6 +54,7 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-cream: var(--cream);
+  --color-highlight: var(--highlight);
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -72,34 +73,35 @@
   --card-foreground: oklch(0.21 0.025 264);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.21 0.025 264);
-  --primary: oklch(0.51 0.21 274);
+  --primary: oklch(0.55 0.09 235);
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.955 0.008 264);
   --secondary-foreground: oklch(0.28 0.028 264);
   --muted: oklch(0.96 0.006 264);
   --muted-foreground: oklch(0.52 0.024 264);
-  --accent: oklch(0.94 0.018 274);
-  --accent-foreground: oklch(0.4 0.17 274);
+  --accent: oklch(0.94 0.016 235);
+  --accent-foreground: oklch(0.42 0.08 235);
   --destructive: oklch(0.58 0.2 26);
   --destructive-foreground: oklch(0.99 0 0);
   --border: oklch(0.9 0.012 264);
   --input: oklch(0.86 0.014 264);
-  --ring: oklch(0.51 0.21 274);
+  --ring: oklch(0.55 0.09 235);
   --success: oklch(0.56 0.14 154);
   --warning: oklch(0.67 0.14 72);
-  --chart-1: oklch(0.51 0.21 274);
+  --chart-1: oklch(0.55 0.09 235);
   --chart-2: oklch(0.61 0.14 222);
   --chart-3: oklch(0.56 0.14 154);
   --chart-4: oklch(0.67 0.14 72);
   --chart-5: oklch(0.55 0.08 305);
   --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.28 0.028 264);
-  --sidebar-primary: oklch(0.51 0.21 274);
+  --sidebar-primary: oklch(0.55 0.09 235);
   --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.95 0.014 274);
-  --sidebar-accent-foreground: oklch(0.4 0.17 274);
+  --sidebar-accent: oklch(0.95 0.014 235);
+  --sidebar-accent-foreground: oklch(0.42 0.08 235);
+  --highlight: oklch(0.72 0.11 55);
   --sidebar-border: oklch(0.9 0.012 264);
-  --sidebar-ring: oklch(0.51 0.21 274);
+  --sidebar-ring: oklch(0.55 0.09 235);
 
   --gradient-flare: var(--primary);
   --gradient-success: var(--success);
@@ -120,6 +122,7 @@
   --landing-ink: oklch(0.8 0.06 220);
 
   --cream: oklch(0.30 0.03 55);
+  --highlight: oklch(0.78 0.12 60);
 
   --rose-rice: oklch(0.22 0.02 55);
   --sappan-rose: oklch(0.72 0.1 220);
