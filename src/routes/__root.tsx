@@ -127,8 +127,6 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-const navLink =
-  "relative rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground";
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
