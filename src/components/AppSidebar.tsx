@@ -59,7 +59,7 @@ export function AppSidebar() {
     <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-[var(--sidebar-width)] shrink-0 flex-col overflow-y-auto border-r border-border bg-sidebar p-3 md:flex">
       <div className="px-3 pb-3 pt-1">
         <div className="flex items-center">
-          <span className="text-lg font-bold uppercase tracking-[0.18em] text-highlight">
+          <span className="font-serif text-xl italic tracking-[0.08em] text-highlight">
             TARA
           </span>
         </div>

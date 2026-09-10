@@ -106,7 +106,7 @@ function AuthPage() {
       <div className="w-full max-w-md overflow-hidden rounded-xl border border-current/20 bg-cream shadow-sm">
         <div className="px-7 pb-7 pt-8">
         <div className="mb-7 text-center">
-          <p className="text-lg font-bold uppercase tracking-[0.18em] text-highlight">TARA</p>
+          <p className="font-serif text-2xl italic tracking-[0.08em] text-highlight">TARA</p>
         </div>
         <h1 className="landing-ink text-center text-2xl font-semibold tracking-tight">
           {mode === "login" ? "Welcome back" : "Create your account"}
