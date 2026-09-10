@@ -118,6 +118,7 @@
 
   --landing-bg: oklch(0.24 0.03 55);
   --landing-ink: oklch(0.8 0.06 220);
+  --auth-bg: oklch(0.24 0.03 55);
 
   --rose-rice: oklch(0.22 0.02 55);
   --sappan-rose: oklch(0.72 0.1 220);
