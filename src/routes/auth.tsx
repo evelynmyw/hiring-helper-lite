@@ -144,6 +144,21 @@ function AuthPage() {
           Continue with Google
         </Button>
 
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => void handleOAuth("microsoft")}
+          className="mt-3 h-10 w-full rounded-lg"
+        >
+          <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
+            <path fill="#F25022" d="M1 1h10.5v10.5H1z" />
+            <path fill="#7FBA00" d="M12.5 1H23v10.5H12.5z" />
+            <path fill="#00A4EF" d="M1 12.5h10.5V23H1z" />
+            <path fill="#FFB900" d="M12.5 12.5H23V23H12.5z" />
+          </svg>
+          Continue with Microsoft
+        </Button>
+
         <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-wider text-muted-foreground">
           <span className="h-px flex-1 bg-border/60" />
           or
