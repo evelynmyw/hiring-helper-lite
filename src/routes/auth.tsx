@@ -268,7 +268,7 @@ function AuthPage() {
               setError(null);
               setNotice(null);
             }}
-             className="font-semibold text-primary underline-offset-4 hover:underline"
+             className="landing-ink font-semibold underline-offset-4 hover:underline"
           >
             {mode === "login" ? "Create an account" : "Log in"}
           </button>
