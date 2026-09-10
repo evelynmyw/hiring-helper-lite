@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
-import taraLogo from "../assets/tara-logo.png";
 import { RequireAuth, useAuth } from "@/components/AuthProvider";
 import { initials } from "@/lib/auth";
 
