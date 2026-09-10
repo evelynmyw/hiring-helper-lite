@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { AuthProvider, useAuth } from "@/components/AuthProvider";
+import taraLogo from "../assets/tara-hand-eye-logo.png";
 
 function NotFoundComponent() {
   return (
