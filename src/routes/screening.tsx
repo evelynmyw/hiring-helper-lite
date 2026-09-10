@@ -44,19 +44,19 @@ function scoreTone(score: number) {
   return "text-destructive";
 }
 function barTone(score: number) {
-  if (score > 60) return "gradient-success";
-  if (score >= 35) return "gradient-warning";
-  return "gradient-destructive";
+  if (score > 60) return "bg-success";
+  if (score >= 35) return "bg-warning";
+  return "bg-destructive";
 }
 
 function CandidateCard({ c }: { c: ScreenedCandidate }) {
   return (
-    <div className="glass flare-ring rounded-2xl p-5">
+    <div className="glass rounded-lg p-5">
 
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <span className="flare-gradient flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
               {c.rank}
             </span>
             <Link
@@ -111,7 +111,7 @@ function CandidateCard({ c }: { c: ScreenedCandidate }) {
                   </div>
                   <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-border">
                     <div
-                      className="flare-gradient h-full rounded-full"
+                      className="h-full rounded-full bg-primary"
                       style={{
                         width: `${b.max_points ? (b.earned_points / b.max_points) * 100 : 0}%`,
                       }}
@@ -154,13 +154,13 @@ function ScreeningPage() {
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-10">
-      <h1 className="flare-text text-4xl font-bold tracking-tight">Resume screening</h1>
+      <h1 className="text-4xl font-bold tracking-tight text-foreground">Resume screening</h1>
       <p className="mt-3 text-sm text-muted-foreground">
         Paste a job description. Every candidate in the database is scored against it
         with a transparent, point-by-point breakdown.
       </p>
 
-      <div className="glass flare-ring mt-6 rounded-2xl p-4">
+      <div className="glass mt-6 rounded-lg p-4">
         <textarea
           value={jd}
           onChange={(e) => setJd(e.target.value)}
@@ -175,7 +175,7 @@ function ScreeningPage() {
           <Button
             onClick={run}
             disabled={loading || !jd.trim()}
-            className="flare-gradient rounded-xl font-semibold text-white hover:opacity-90"
+            className="rounded-lg font-semibold"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {loading ? "Analyzing…" : "Screen Candidates"}
@@ -184,7 +184,7 @@ function ScreeningPage() {
       </div>
 
       {loading && (
-        <div className="glass mt-6 rounded-2xl p-6 text-center">
+        <div className="glass mt-6 rounded-lg p-6 text-center">
           <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
           <p className="mt-3 text-sm font-medium">
             Analyzing candidates against this role…
@@ -205,7 +205,7 @@ function ScreeningPage() {
 
       {result && (
         <div className="mt-8 space-y-6">
-          <div className="glass flare-ring rounded-2xl p-5">
+          <div className="glass rounded-lg p-5">
 
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Parsed role
@@ -221,7 +221,7 @@ function ScreeningPage() {
                     result.required_skills.map((s) => (
                       <span
                         key={s}
-                        className="gradient-success inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold text-white"
+                        className="inline-flex items-center rounded-full bg-success/15 px-2.5 py-0.5 text-[11px] font-semibold text-success"
                       >
                         {s}
                       </span>
@@ -240,7 +240,7 @@ function ScreeningPage() {
                     result.nice_to_have_skills.map((s) => (
                       <span
                         key={s}
-                        className="gradient-badge inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium text-foreground"
+                        className="inline-flex items-center rounded-full border border-border bg-secondary px-2.5 py-0.5 text-[11px] font-medium text-secondary-foreground"
                       >
                         {s}
                       </span>

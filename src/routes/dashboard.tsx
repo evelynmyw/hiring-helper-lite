@@ -65,7 +65,7 @@ function DashboardPage() {
     <AppShell>
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Recruitment <span className="flare-text">Dashboard</span>
+          Recruitment <span className="text-primary">Dashboard</span>
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Monitor your hiring pipeline and team performance
@@ -74,7 +74,7 @@ function DashboardPage() {
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {STATS.map(({ label, value, icon: Icon, delta }) => (
-          <div key={label} className="glass flare-ring rounded-2xl p-5">
+          <div key={label} className="glass rounded-lg p-5">
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">{label}</span>
               <Icon className="h-4 w-4 text-muted-foreground" />
@@ -89,7 +89,7 @@ function DashboardPage() {
       </section>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
-        <section className="glass rounded-2xl p-6 lg:col-span-2">
+        <section className="glass rounded-lg p-6 lg:col-span-2">
           <h2 className="text-base font-semibold">Hiring pipeline</h2>
           <div className="mt-5 space-y-4">
             {PIPELINE.map(({ stage, count, pct }) => (
@@ -100,7 +100,7 @@ function DashboardPage() {
                 </div>
                 <div className="mt-2 h-2 overflow-hidden rounded-full bg-muted">
                   <div
-                    className="flare-gradient h-full rounded-full"
+                    className="h-full rounded-full bg-primary"
                     style={{ width: `${pct}%` }}
                   />
                 </div>
@@ -109,12 +109,12 @@ function DashboardPage() {
           </div>
         </section>
 
-        <section className="glass rounded-2xl p-6">
+        <section className="glass rounded-lg p-6">
           <h2 className="text-base font-semibold">Recent activity</h2>
           <ul className="mt-5 space-y-4">
             {ACTIVITY.map((a) => (
               <li key={a.who} className="flex gap-3">
-                <span className="flare-gradient mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white">
+                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-bold text-secondary-foreground">
                   {a.who.slice(0, 1)}
                 </span>
                 <div className="min-w-0">
@@ -130,7 +130,7 @@ function DashboardPage() {
         </section>
       </div>
 
-      <section className="glass mt-6 rounded-2xl p-6">
+      <section className="glass mt-6 rounded-lg p-6">
         <h2 className="text-base font-semibold">Open roles</h2>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full text-left text-sm">
@@ -152,8 +152,8 @@ function DashboardPage() {
                     <span
                       className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                         r.status === "Active"
-                          ? "gradient-success text-white"
-                          : "gradient-badge text-foreground"
+                          ? "bg-success/15 text-success"
+                          : "border border-border bg-secondary text-secondary-foreground"
                       }`}
                     >
                       {r.status}

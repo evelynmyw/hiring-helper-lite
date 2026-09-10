@@ -132,14 +132,14 @@ const TOOLTIP_FMT = new Intl.DateTimeFormat("en", {
 function cellStyle(count: number) {
   if (count === 0) return { background: "color-mix(in oklab, var(--foreground) 7%, transparent)" };
   const pct = [0, 25, 45, 68, 92][Math.min(count, 4)];
-  return { background: `color-mix(in oklab, var(--sappan-rose) ${pct}%, transparent)` };
+  return { background: `color-mix(in oklab, var(--primary) ${pct}%, transparent)` };
 }
 
 function Heatmap() {
   const total = GRID.flat().reduce((a, b) => a + b, 0);
 
   return (
-    <section className="glass rounded-2xl p-5">
+    <section className="glass rounded-lg p-5">
       <div className="flex items-baseline justify-between">
         <h2 className="text-base font-semibold">Interview density</h2>
         <span className="text-xs text-muted-foreground">
@@ -204,7 +204,7 @@ function SchedulePage() {
       <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Interview <span className="flare-text">Schedule</span>
+             Interview <span className="text-primary">Schedule</span>
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {total} interviews scheduled this week
@@ -217,7 +217,7 @@ function SchedulePage() {
 
         <div className="space-y-4">
           {DAYS.map((d) => (
-            <section key={d.day} className="glass rounded-2xl p-5">
+            <section key={d.day} className="glass rounded-lg p-5">
               <div className="flex items-baseline justify-between">
                 <h2 className="text-base font-semibold">{d.day}</h2>
                 <span className="text-xs text-muted-foreground">{d.date}</span>
@@ -242,7 +242,7 @@ function SchedulePage() {
                       <span className="text-xs text-muted-foreground">
                         {e.stage} · {e.panel}
                       </span>
-                      <span className="gradient-badge ml-auto inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium text-foreground">
+                       <span className="ml-auto inline-flex items-center gap-1 rounded-full border border-border bg-secondary px-2.5 py-1 text-[11px] font-medium text-secondary-foreground">
                         <Video className="h-3 w-3" />
                         {e.mode}
                       </span>

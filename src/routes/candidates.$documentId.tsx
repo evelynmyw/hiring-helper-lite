@@ -77,8 +77,8 @@ function CandidatePage() {
         Back to screening
       </Link>
 
-      <div className="glass flare-ring mt-4 rounded-2xl p-5">
-        <h1 className="flare-text text-3xl font-bold tracking-tight">{name}</h1>
+       <div className="glass mt-4 rounded-lg p-5">
+         <h1 className="text-3xl font-bold tracking-tight text-foreground">{name}</h1>
         {email && <p className="mt-1 text-sm text-muted-foreground">{email}</p>}
         <p className="mt-1 text-xs text-muted-foreground">
           Document ID: {documentId}
@@ -102,7 +102,7 @@ function CandidatePage() {
       </div>
 
       {cached && (
-        <div className="glass mt-6 rounded-2xl p-5">
+         <div className="glass mt-6 rounded-lg p-5">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
             Score breakdown
           </h2>
@@ -124,7 +124,7 @@ function CandidatePage() {
         </div>
       )}
 
-      <div className="glass flare-ring mt-6 rounded-2xl p-5">
+       <div className="glass mt-6 rounded-lg p-5">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
           Full resume
         </h2>
