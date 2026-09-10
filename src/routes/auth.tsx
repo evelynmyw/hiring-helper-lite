@@ -88,14 +88,16 @@ function AuthPage() {
     }
   }
 
-  async function handleGoogle() {
+  async function handleOAuth(provider: "google" | "microsoft") {
     setError(null);
     setNotice(null);
-    const result = await lovable.auth.signInWithOAuth("google", {
+    const result = await lovable.auth.signInWithOAuth(provider, {
       redirect_uri: window.location.origin,
     });
     if (result.error) {
-      setError("Google sign-in failed, please try again.");
+      setError(
+        `${provider === "google" ? "Google" : "Microsoft"} sign-in failed, please try again.`,
+      );
     }
   }
 
