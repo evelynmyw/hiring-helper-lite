@@ -102,7 +102,7 @@ function AuthPage() {
   }
 
   return (
-    <main className="landing-bg flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-12">
+    <main className="auth-bg flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-md overflow-hidden rounded-xl border border-current/20 bg-card shadow-sm">
         <div className="px-7 pb-7 pt-8">
         <div className="mb-7 text-center">

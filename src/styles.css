@@ -108,6 +108,9 @@
   /* Landing page editorial palette: dusty blue-gray wash + deep brown ink. */
   --landing-bg: oklch(0.85 0.025 232);
   --landing-ink: oklch(0.32 0.04 55);
+
+  /* Auth page background: warm cream from brand reference. */
+  --auth-bg: oklch(0.94 0.015 80);
 }
 
 .dark {
@@ -115,6 +118,7 @@
 
   --landing-bg: oklch(0.24 0.03 55);
   --landing-ink: oklch(0.8 0.06 220);
+  --auth-bg: oklch(0.24 0.03 55);
 
   --rose-rice: oklch(0.22 0.02 55);
   --sappan-rose: oklch(0.72 0.1 220);
@@ -254,6 +258,10 @@
 /* Landing page editorial marquee */
 .landing-bg {
   background-color: var(--landing-bg);
+}
+
+.auth-bg {
+  background-color: var(--auth-bg);
 }
 
 .landing-ink {
