@@ -127,8 +127,6 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-const navLink =
-  "relative rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground";
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
@@ -159,37 +157,55 @@ function RootComponent() {
   );
 }
 
-const activeNav = {
-  className:
-    "bg-accent text-accent-foreground",
-};
+const tabColors = ["tab-gray", "tab-pink", "tab-cream", "tab-sand", "tab-peach"];
+
+function FolderTab({
+  to,
+  color,
+  exact,
+  children,
+}: {
+  to: string;
+  color: string;
+  exact?: boolean | undefined;
+  children: ReactNode;
+}) {
+  return (
+    <Link
+      to={to}
+      className={`folder-tab ${color}`}
+      activeOptions={{ exact: exact ?? false }}
+    >
+      {children}
+    </Link>
+  );
+}
 
 function MainNav() {
   const { status } = useAuth();
 
+  const links: { to: string; label: string; exact?: boolean }[] =
+    status === "signed-in"
+      ? [
+          { to: "/", label: "Home", exact: true },
+          { to: "/dashboard", label: "Dashboard" },
+          { to: "/chat", label: "Candidate Search" },
+          { to: "/screening", label: "Resume Screening" },
+        ]
+      : [{ to: "/", label: "Home", exact: true }];
+
   return (
-    <nav className="flex items-center gap-1">
-      <Link
-        to="/"
-        className={navLink}
-        activeProps={activeNav}
-        activeOptions={{ exact: true }}
-      >
-        Home
-      </Link>
-      {status === "signed-in" ? (
-        <>
-          <Link to="/dashboard" className={navLink} activeProps={activeNav}>
-            Dashboard
-          </Link>
-          <Link to="/chat" className={navLink} activeProps={activeNav}>
-            Candidate Search
-          </Link>
-          <Link to="/screening" className={navLink} activeProps={activeNav}>
-            Resume Screening
-          </Link>
-        </>
-      ) : null}
+    <nav className="folder-tabs self-end" aria-label="Main navigation">
+      {links.map((link, i) => (
+        <FolderTab
+          key={link.to}
+          to={link.to}
+          exact={link.exact}
+          color={tabColors[i % tabColors.length] ?? "tab-gray"}
+        >
+          {link.label}
+        </FolderTab>
+      ))}
     </nav>
   );
 }
