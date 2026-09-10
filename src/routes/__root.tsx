@@ -201,7 +201,7 @@ function MainNav() {
           key={link.to}
           to={link.to}
           exact={link.exact}
-          color={tabColors[i % tabColors.length]}
+          color={tabColors[i % tabColors.length] ?? "tab-gray"}
         >
           {link.label}
         </FolderTab>
