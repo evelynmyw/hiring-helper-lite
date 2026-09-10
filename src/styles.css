@@ -304,3 +304,67 @@
 }
 
 
+
+/* ===== Folder-tab navigation (file divider style) ===== */
+.folder-tabs {
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+}
+
+.folder-tab {
+  --tab-bg: oklch(0.92 0.01 260);
+  --tab-text: oklch(0.25 0.02 260);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1.4rem 0.5rem;
+  margin-left: -0.65rem;
+  background: var(--tab-bg);
+  color: var(--tab-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  border-radius: 10px 10px 0 0;
+  clip-path: polygon(0 100%, 0 14px, 10px 0, calc(38% - 4px) 0, calc(38% + 6px) -9px, calc(72% + 4px) -9px, calc(72% + 14px) 0, 100% 0, 100% 100%);
+  transition: transform 150ms ease, filter 150ms ease;
+}
+
+.folder-tab:first-child {
+  margin-left: 0;
+}
+
+.folder-tab:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.03);
+}
+
+.folder-tab[data-status="active"] {
+  z-index: 10;
+  transform: translateY(-3px);
+  filter: brightness(1.05);
+}
+
+/* pastel tab colors, light mode */
+.folder-tab.tab-gray   { --tab-bg: oklch(0.90 0.012 260); --tab-text: oklch(0.28 0.02 260); }
+.folder-tab.tab-pink   { --tab-bg: oklch(0.86 0.05 350);  --tab-text: oklch(0.35 0.06 350); }
+.folder-tab.tab-sand   { --tab-bg: oklch(0.83 0.055 75);  --tab-text: oklch(0.36 0.05 70); }
+.folder-tab.tab-peach  { --tab-bg: oklch(0.81 0.08 50);   --tab-text: oklch(0.36 0.06 50); }
+.folder-tab.tab-cream  { --tab-bg: oklch(0.93 0.025 95);  --tab-text: oklch(0.36 0.03 80); }
+
+/* dark mode: warm translucent browns, baby blue text */
+.dark .folder-tab {
+  --tab-text: var(--landing-ink);
+}
+.dark .folder-tab.tab-gray  { --tab-bg: oklch(0.34 0.02 60); }
+.dark .folder-tab.tab-pink  { --tab-bg: oklch(0.38 0.03 20); }
+.dark .folder-tab.tab-sand  { --tab-bg: oklch(0.40 0.035 70); }
+.dark .folder-tab.tab-peach { --tab-bg: oklch(0.42 0.045 50); }
+.dark .folder-tab.tab-cream { --tab-bg: oklch(0.36 0.02 80); }
+
+@media (prefers-reduced-motion: reduce) {
+  .folder-tab { transition: none; }
+}
