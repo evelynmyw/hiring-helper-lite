@@ -143,9 +143,9 @@ function RootComponent() {
               <img
                 src={taraLogo}
                 alt="Tara"
-                width={28}
-                height={28}
-                className="h-7 w-7 object-contain"
+                width={36}
+                height={36}
+                className="h-9 w-9 object-contain"
               />
               <span className="font-serif text-lg italic tracking-[0.08em] text-highlight">
                 TARA

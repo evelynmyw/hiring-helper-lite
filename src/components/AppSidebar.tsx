@@ -63,9 +63,9 @@ export function AppSidebar() {
           <img
             src={taraLogo}
             alt="Tara"
-            width={32}
-            height={32}
-            className="h-8 w-8 object-contain"
+            width={40}
+            height={40}
+            className="h-10 w-10 object-contain"
           />
           <span className="font-serif text-xl italic tracking-[0.08em] text-highlight">
             TARA
