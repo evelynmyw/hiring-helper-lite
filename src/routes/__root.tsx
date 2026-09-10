@@ -167,7 +167,7 @@ function FolderTab({
 }: {
   to: string;
   color: string;
-  exact?: boolean;
+  exact?: boolean | undefined;
   children: ReactNode;
 }) {
   return (
