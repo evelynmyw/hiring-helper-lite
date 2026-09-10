@@ -102,13 +102,13 @@ function AuthPage() {
   }
 
   return (
-    <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center bg-background px-4 py-12">
-      <div className="w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+    <main className="landing-bg flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md overflow-hidden rounded-xl border border-current/20 bg-card shadow-sm">
         <div className="px-7 pb-7 pt-8">
         <div className="mb-7 text-center">
-          <p className="text-lg font-bold uppercase tracking-[0.18em] text-foreground">TARA</p>
+          <p className="landing-ink text-lg font-bold uppercase tracking-[0.18em]">TARA</p>
         </div>
-        <h1 className="text-center text-2xl font-semibold tracking-tight text-foreground">
+        <h1 className="landing-ink text-center text-2xl font-semibold tracking-tight">
           {mode === "login" ? "Welcome back" : "Create your account"}
         </h1>
         <p className="mt-2 text-center text-sm text-muted-foreground">
@@ -245,7 +245,7 @@ function AuthPage() {
           <Button
             type="submit"
             disabled={pending}
-            className="h-10 w-full rounded-lg"
+            className="landing-ink h-10 w-full rounded-lg border border-current bg-transparent hover:bg-foreground/5"
           >
             {pending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -268,7 +268,7 @@ function AuthPage() {
               setError(null);
               setNotice(null);
             }}
-             className="font-semibold text-primary underline-offset-4 hover:underline"
+             className="landing-ink font-semibold underline-offset-4 hover:underline"
           >
             {mode === "login" ? "Create an account" : "Log in"}
           </button>
