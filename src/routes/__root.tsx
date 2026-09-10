@@ -136,16 +136,18 @@ function RootComponent() {
       <AuthProvider>
       <div className="relative z-10 flex min-h-screen flex-col">
       <header className="sticky top-0 z-20 h-16 border-b border-border bg-cream">
-
-        <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
-          <Link to="/" className="flex items-center">
-            <span className="font-serif text-lg italic tracking-[0.08em] text-highlight">
-              TARA
-            </span>
-          </Link>
+        <div className="flex h-full w-full items-center px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-1 items-center">
+            <Link to="/" className="flex items-center">
+              <span className="font-serif text-lg italic tracking-[0.08em] text-highlight">
+                TARA
+              </span>
+            </Link>
+          </div>
           <MainNav />
-          <ThemeToggle />
-
+          <div className="flex flex-1 items-center justify-end">
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
