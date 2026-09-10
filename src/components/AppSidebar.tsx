@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
+import taraLogo from "../assets/tara-hand-eye-logo.png";
 import {
   BarChart3,
   Briefcase,
@@ -58,7 +59,14 @@ export function AppSidebar() {
   return (
     <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-[var(--sidebar-width)] shrink-0 flex-col overflow-y-auto border-r border-border bg-sidebar p-3 md:flex">
       <div className="px-3 pb-3 pt-1">
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
+          <img
+            src={taraLogo}
+            alt="Tara"
+            width={32}
+            height={32}
+            className="h-8 w-8 object-contain"
+          />
           <span className="font-serif text-xl italic tracking-[0.08em] text-highlight">
             TARA
           </span>

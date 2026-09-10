@@ -6,6 +6,7 @@ import { useAuth } from "@/components/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable/index";
 import { signInWithPassword, signUpWithPassword } from "@/lib/auth";
+import taraLogo from "../assets/tara-hand-eye-logo.png";
 
 type Search = { redirect?: string | undefined };
 
@@ -105,7 +106,14 @@ function AuthPage() {
     <main className="landing-bg flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-md overflow-hidden rounded-xl border border-current/20 bg-cream shadow-sm">
         <div className="px-7 pb-7 pt-8">
-        <div className="mb-7 text-center">
+        <div className="mb-7 flex items-center justify-center gap-2">
+          <img
+            src={taraLogo}
+            alt="Tara"
+            width={32}
+            height={32}
+            className="h-8 w-8 object-contain"
+          />
           <p className="font-serif text-2xl italic tracking-[0.08em] text-highlight">TARA</p>
         </div>
         <h1 className="landing-ink text-center text-2xl font-semibold tracking-tight">
