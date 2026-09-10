@@ -65,7 +65,7 @@ function DashboardPage() {
   return (
     <AppShell>
       <div className="mb-2">
-        <BackButton />
+        <BackButton to="/" />
       </div>
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
