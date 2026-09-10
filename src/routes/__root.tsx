@@ -189,10 +189,6 @@ function MainNav() {
             Resume Screening
           </Link>
         </>
-      ) : status === "signed-out" ? (
-        <Link to="/auth" className={navLink} activeProps={activeNav}>
-          Log in
-        </Link>
       ) : null}
     </nav>
   );
