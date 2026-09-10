@@ -155,7 +155,7 @@ function ScreeningPage() {
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-10">
-      <BackButton />
+      <BackButton to="/dashboard" />
       <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground">Resume screening</h1>
       <p className="mt-3 text-sm text-muted-foreground">
         Paste a job description. Every candidate in the database is scored against it

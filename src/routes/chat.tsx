@@ -78,7 +78,7 @@ function ChatPage() {
       <div className="flex-1 overflow-y-auto">
         <div className="mx-auto w-full max-w-3xl space-y-4 px-4 py-6">
           <div className="-mb-2">
-            <BackButton />
+            <BackButton to="/dashboard" />
           </div>
           {messages.length === 0 && (
             <div className="mt-6 text-center">
