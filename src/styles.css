@@ -113,6 +113,9 @@
 .dark {
   color-scheme: dark;
 
+  --landing-bg: oklch(0.24 0.025 250);
+  --landing-ink: oklch(0.76 0.08 65);
+
   --rose-rice: oklch(0.23 0.018 264);
   --sappan-rose: oklch(0.65 0.17 274);
   --wild-plum: oklch(0.7 0.13 274);
