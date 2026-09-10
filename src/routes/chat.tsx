@@ -78,7 +78,7 @@ function ChatPage() {
         <div className="mx-auto w-full max-w-3xl space-y-4 px-4 py-6">
           {messages.length === 0 && (
             <div className="mt-10 text-center">
-              <h1 className="flare-text text-4xl font-bold tracking-tight">Candidate search</h1>
+              <h1 className="text-4xl font-bold tracking-tight text-foreground">Candidate search</h1>
               <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
                 Describe the person you're looking for in plain English. The assistant searches the
                 resume database and explains its picks.
@@ -88,7 +88,7 @@ function ChatPage() {
                   <button
                     key={s}
                     onClick={() => send(s)}
-                    className="glass flare-ring rounded-2xl px-4 py-3 text-left text-base text-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-22px_var(--sappan-rose)]"
+                    className="rounded-lg border border-border bg-card px-4 py-3 text-left text-sm text-foreground shadow-sm transition-colors hover:border-primary/40 hover:bg-accent/40"
                   >
                     {s}
                   </button>
@@ -104,9 +104,9 @@ function ChatPage() {
             >
               <div
                 className={cn(
-                  "max-w-[85%] rounded-2xl px-4 py-3",
+                    "max-w-[85%] rounded-lg px-4 py-3",
                   m.role === "user" &&
-                    "flare-gradient text-white font-medium shadow-[0_14px_34px_-18px_var(--sappan-rose)]",
+                    "bg-primary text-primary-foreground font-medium",
                   m.role === "assistant" && "glass",
                   m.role === "error" &&
                     "border border-destructive/40 bg-destructive/15 text-destructive-foreground backdrop-blur",
@@ -123,12 +123,12 @@ function ChatPage() {
 
           {loading && (
             <div className="flex justify-start">
-              <div className="glass flex items-center gap-2 rounded-2xl px-4 py-3">
+              <div className="glass flex items-center gap-2 rounded-lg px-4 py-3">
                 <span className="flex gap-1">
                   {[0, 150, 300].map((d) => (
                     <span
                       key={d}
-                      className="flare-gradient h-2 w-2 animate-bounce rounded-full"
+                      className="h-2 w-2 animate-bounce rounded-full bg-primary"
                       style={{ animationDelay: `${d}ms` }}
                     />
                   ))}
@@ -149,7 +149,7 @@ function ChatPage() {
         className="bg-transparent pb-6 pt-4"
       >
         <div className="mx-auto w-full max-w-3xl px-4">
-          <div className="glass flare-ring flex items-end gap-2 rounded-2xl p-2">
+          <div className="flex items-end gap-2 rounded-lg border border-input bg-card p-2 shadow-sm focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15">
             <textarea
               ref={inputRef}
               rows={1}
@@ -168,7 +168,7 @@ function ChatPage() {
               type="submit"
               size="icon"
               disabled={loading || !input.trim()}
-              className="flare-gradient rounded-xl text-white hover:opacity-90"
+              className="rounded-md"
             >
               <Send className="h-4 w-4" />
             </Button>

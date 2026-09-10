@@ -101,7 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
       },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
@@ -128,7 +128,7 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 const navLink =
-  "relative rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground transition-all hover:text-foreground";
+  "relative rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground";
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
@@ -136,61 +136,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
-      >
-        <div
-          className="aurora-blob"
-          style={{
-            top: "-18%",
-            left: "-12%",
-            width: "60vw",
-            height: "60vw",
-            background: "var(--sappan-rose)",
-            opacity: 0.18,
-            animation: "blob-a 18s ease-in-out infinite alternate",
-          }}
-        />
-        <div
-          className="aurora-blob"
-          style={{
-            top: "-10%",
-            right: "-15%",
-            width: "55vw",
-            height: "55vw",
-            background: "var(--wild-plum)",
-            opacity: 0.16,
-            animation: "blob-b 22s ease-in-out infinite alternate",
-          }}
-        />
-        <div
-          className="aurora-blob"
-          style={{
-            bottom: "-25%",
-            left: "20%",
-            width: "65vw",
-            height: "55vw",
-            background: "var(--rose-rice)",
-            opacity: 0.55,
-            animation: "blob-c 26s ease-in-out infinite alternate",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-60"
-          style={{
-            background:
-              "radial-gradient(120% 90% at 50% 0%, transparent 20%, var(--background) 110%)",
-          }}
-        />
-
-      </div>
       <div className="relative z-10 flex min-h-screen flex-col">
-      <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/70 backdrop-blur-md">
+      <header className="sticky top-0 z-20 h-16 border-b border-border bg-card/95 backdrop-blur-sm">
 
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
           <Link to="/" className="flex items-center">
-            <span className="flare-text text-sm font-bold uppercase tracking-[0.18em]">
+            <span className="text-sm font-bold uppercase tracking-[0.18em] text-foreground">
               TARA
             </span>
           </Link>
@@ -210,7 +161,7 @@ function RootComponent() {
 
 const activeNav = {
   className:
-    "flare-ring bg-secondary/60 text-foreground shadow-[0_8px_24px_-14px_var(--sappan-rose)]",
+    "bg-accent text-accent-foreground",
 };
 
 function MainNav() {

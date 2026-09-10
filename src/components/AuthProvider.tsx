@@ -105,10 +105,10 @@ export function RequireAuth({ children }: { children: ReactNode }) {
   if (status !== "signed-in") {
     return (
       <div className="mx-auto w-full max-w-7xl px-4 py-16">
-        <div className="glass h-10 w-48 animate-pulse rounded-xl" />
+        <div className="glass h-10 w-48 animate-pulse rounded-lg" />
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[0, 1, 2, 3].map((i) => (
-            <div key={i} className="glass h-28 animate-pulse rounded-2xl" />
+            <div key={i} className="glass h-28 animate-pulse rounded-lg" />
           ))}
         </div>
       </div>

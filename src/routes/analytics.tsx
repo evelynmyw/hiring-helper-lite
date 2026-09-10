@@ -53,7 +53,7 @@ function AnalyticsPage() {
     <AppShell>
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Hiring <span className="flare-text">Analytics</span>
+          Hiring <span className="text-primary">Analytics</span>
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Funnel efficiency and sourcing performance over the last 6 months
@@ -62,7 +62,7 @@ function AnalyticsPage() {
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {KPIS.map(({ label, value, icon: Icon, note }) => (
-          <div key={label} className="glass flare-ring rounded-2xl p-5">
+          <div key={label} className="glass rounded-lg p-5">
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">{label}</span>
               <Icon className="h-4 w-4 text-muted-foreground" />
@@ -74,7 +74,7 @@ function AnalyticsPage() {
       </section>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
-        <section className="glass rounded-2xl p-6 lg:col-span-2">
+        <section className="glass rounded-lg p-6 lg:col-span-2">
           <h2 className="text-base font-semibold">Applications per month</h2>
           <div className="mt-6 flex h-52 gap-4">
             {MONTHS.map((m) => (
@@ -84,7 +84,7 @@ function AnalyticsPage() {
                 </span>
                 <div className="flex w-full flex-1 items-end">
                   <div
-                    className="flare-gradient w-full rounded-t-lg"
+                    className="w-full rounded-t-md bg-primary"
                     style={{ height: `${(m.applications / max) * 100}%` }}
                   />
                 </div>
@@ -94,7 +94,7 @@ function AnalyticsPage() {
           </div>
         </section>
 
-        <section className="glass rounded-2xl p-6">
+        <section className="glass rounded-lg p-6">
           <h2 className="text-base font-semibold">Sourcing channels</h2>
           <div className="mt-5 space-y-4">
             {SOURCES.map((s) => (
@@ -105,7 +105,7 @@ function AnalyticsPage() {
                 </div>
                 <div className="mt-2 h-2 overflow-hidden rounded-full bg-muted">
                   <div
-                    className="flare-gradient h-full rounded-full"
+                    className="h-full rounded-full bg-primary"
                     style={{ width: `${s.pct}%` }}
                   />
                 </div>

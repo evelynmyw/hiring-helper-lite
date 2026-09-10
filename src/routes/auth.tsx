@@ -3,6 +3,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Loader2, LogIn, UserPlus } from "lucide-react";
 
 import { useAuth } from "@/components/AuthProvider";
+import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable/index";
 import { signInWithPassword, signUpWithPassword } from "@/lib/auth";
 
@@ -34,7 +35,7 @@ export const Route = createFileRoute("/auth")({
 });
 
 const inputClass =
-  "w-full rounded-xl border border-border/60 bg-background/60 px-3 py-2 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground/70 focus:border-transparent focus:ring-2 focus:ring-[var(--sappan-rose)]";
+  "w-full rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15";
 
 function AuthPage() {
   const { status } = useAuth();
@@ -99,23 +100,26 @@ function AuthPage() {
   }
 
   return (
-    <main className="relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-12">
-      <div aria-hidden className="solar-flow" />
-
-      <div className="glass flare-ring relative z-10 w-full max-w-md rounded-2xl p-7">
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+    <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center bg-background px-4 py-12">
+      <div className="w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+        <div className="px-7 pb-7 pt-8">
+        <div className="mb-7 text-center">
+          <p className="text-lg font-bold uppercase tracking-[0.18em] text-foreground">TARA</p>
+        </div>
+        <h1 className="text-center text-2xl font-semibold tracking-tight text-foreground">
           {mode === "login" ? "Welcome back" : "Create your account"}
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-2 text-center text-sm text-muted-foreground">
           {mode === "login"
             ? "Sign in to your Tara workspace."
             : "Every recruiter gets their own account."}
         </p>
 
-        <button
+        <Button
           type="button"
+          variant="outline"
           onClick={() => void handleGoogle()}
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/60 bg-background/60 px-4 py-2.5 text-sm font-semibold text-foreground transition-all hover:-translate-y-0.5"
+          className="mt-7 h-10 w-full rounded-lg"
         >
           <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
             <path
@@ -136,7 +140,7 @@ function AuthPage() {
             />
           </svg>
           Continue with Google
-        </button>
+        </Button>
 
         <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-wider text-muted-foreground">
           <span className="h-px flex-1 bg-border/60" />
@@ -149,7 +153,7 @@ function AuthPage() {
             <div>
               <label
                 htmlFor="name"
-                className="mb-1 block text-xs font-medium uppercase tracking-wider text-muted-foreground"
+                className="mb-1.5 block text-sm font-medium text-foreground"
               >
                 Full name
               </label>
@@ -168,7 +172,7 @@ function AuthPage() {
           <div>
             <label
               htmlFor="email"
-              className="mb-1 block text-xs font-medium uppercase tracking-wider text-muted-foreground"
+              className="mb-1.5 block text-sm font-medium text-foreground"
             >
               Email
             </label>
@@ -187,7 +191,7 @@ function AuthPage() {
           <div>
             <label
               htmlFor="password"
-              className="mb-1 block text-xs font-medium uppercase tracking-wider text-muted-foreground"
+              className="mb-1.5 block text-sm font-medium text-foreground"
             >
               Password
             </label>
@@ -221,10 +225,10 @@ function AuthPage() {
             </p>
           )}
 
-          <button
+          <Button
             type="submit"
             disabled={pending}
-            className="flare-gradient inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+            className="h-10 w-full rounded-lg"
           >
             {pending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -234,10 +238,11 @@ function AuthPage() {
               <UserPlus className="h-4 w-4" />
             )}
             {mode === "login" ? "Log in" : "Create account"}
-          </button>
+          </Button>
         </form>
-
-        <p className="mt-5 text-center text-sm text-muted-foreground">
+        </div>
+        <div className="border-t border-border bg-muted/50 px-7 py-5">
+        <p className="text-center text-sm text-muted-foreground">
           {mode === "login" ? "New to Tara?" : "Already have an account?"}{" "}
           <button
             type="button"
@@ -246,11 +251,12 @@ function AuthPage() {
               setError(null);
               setNotice(null);
             }}
-            className="font-semibold text-foreground underline-offset-4 hover:underline"
+             className="font-semibold text-primary underline-offset-4 hover:underline"
           >
             {mode === "login" ? "Create an account" : "Log in"}
           </button>
         </p>
+        </div>
       </div>
     </main>
   );

@@ -80,9 +80,9 @@ const JOBS = [
 ];
 
 const statusStyle: Record<string, string> = {
-  Active: "gradient-success text-white",
-  Draft: "gradient-badge text-foreground",
-  Closed: "gradient-destructive text-white",
+  Active: "bg-success/15 text-success",
+  Draft: "border border-border bg-secondary text-secondary-foreground",
+  Closed: "bg-destructive/15 text-destructive",
 };
 
 function JobsPage() {
@@ -91,7 +91,7 @@ function JobsPage() {
       <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Open <span className="flare-text">Jobs</span>
+            Open <span className="text-primary">Jobs</span>
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {JOBS.filter((j) => j.status === "Active").length} active
@@ -101,7 +101,7 @@ function JobsPage() {
         </div>
         <button
           type="button"
-          className="glass flare-ring inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-all hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
         >
           <Plus className="h-4 w-4" />
           New job
@@ -110,7 +110,7 @@ function JobsPage() {
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {JOBS.map((job) => (
-          <article key={job.title} className="glass flare-ring rounded-2xl p-5">
+          <article key={job.title} className="glass rounded-lg p-5">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <h2 className="truncate text-base font-semibold">{job.title}</h2>

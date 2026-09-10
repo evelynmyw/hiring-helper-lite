@@ -19,6 +19,7 @@ import {
 import type { ReactNode } from "react";
 
 import { RequireAuth, useAuth } from "@/components/AuthProvider";
+import { Button } from "@/components/ui/button";
 import { initials } from "@/lib/auth";
 
 type NavItem = {
@@ -51,14 +52,14 @@ const NAV: NavItem[] = [
 ];
 
 const itemBase =
-  "flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-all";
+  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors";
 
 export function AppSidebar() {
   return (
-    <aside className="glass sticky top-16 hidden h-[calc(100vh-4rem)] w-[var(--sidebar-width)] shrink-0 flex-col overflow-y-auto rounded-r-2xl p-3 md:flex">
+    <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-[var(--sidebar-width)] shrink-0 flex-col overflow-y-auto border-r border-border bg-sidebar p-3 md:flex">
       <div className="px-3 pb-3 pt-1">
         <div className="flex items-center">
-          <span className="flare-text text-lg font-bold uppercase tracking-[0.18em]">
+          <span className="text-lg font-bold uppercase tracking-[0.18em] text-sidebar-foreground">
             TARA
           </span>
         </div>
@@ -70,9 +71,9 @@ export function AppSidebar() {
             <Link
               key={label}
               to={to}
-              className={`${itemBase} text-muted-foreground hover:bg-secondary/50 hover:text-foreground`}
+              className={`${itemBase} text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground`}
               activeProps={{
-                className: `${itemBase} flare-ring bg-secondary/70 text-foreground shadow-[0_8px_24px_-16px_var(--sappan-rose)]`,
+                className: `${itemBase} bg-sidebar-accent text-sidebar-accent-foreground`,
               }}
             >
               <Icon className="h-4 w-4 shrink-0" />
@@ -109,8 +110,8 @@ function UserCard() {
   }
 
   return (
-    <div className="mt-3 flex items-center gap-3 rounded-xl border border-border/60 px-3 py-2">
-      <span className="flare-gradient flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white">
+    <div className="mt-3 flex items-center gap-3 rounded-lg border border-sidebar-border bg-background px-3 py-2">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
         {initials(user)}
       </span>
       <div className="min-w-0 flex-1 leading-tight">
@@ -121,15 +122,17 @@ function UserCard() {
           {user?.email ?? ""}
         </p>
       </div>
-      <button
+      <Button
         type="button"
+        variant="ghost"
+        size="icon"
         onClick={handleSignOut}
         aria-label="Log out"
         title="Log out"
-        className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-secondary/60 hover:text-foreground"
+        className="h-8 w-8 text-muted-foreground"
       >
         <LogOut className="h-4 w-4" />
-      </button>
+      </Button>
     </div>
   );
 }
@@ -138,7 +141,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <RequireAuth>
       <div
-        className="mx-auto flex w-full max-w-7xl gap-6 px-4"
+        className="mx-auto flex w-full max-w-7xl gap-8 px-4"
         style={{ ["--sidebar-width" as string]: "16rem" }}
       >
         <AppSidebar />
