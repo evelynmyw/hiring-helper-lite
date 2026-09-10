@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { RequireAuth } from "@/components/AuthProvider";
 import { useEffect, useRef, useState } from "react";
 import { Send } from "lucide-react";
+import { BackButton } from "@/components/BackButton";
 import { Markdown } from "@/components/Markdown";
 import { Button } from "@/components/ui/button";
 import { searchCandidates } from "@/lib/api";
@@ -76,8 +77,11 @@ function ChatPage() {
     <div className="flex h-[calc(100vh-4rem)] w-full flex-col">
       <div className="flex-1 overflow-y-auto">
         <div className="mx-auto w-full max-w-3xl space-y-4 px-4 py-6">
+          <div className="-mb-2">
+            <BackButton />
+          </div>
           {messages.length === 0 && (
-            <div className="mt-10 text-center">
+            <div className="mt-6 text-center">
               <h1 className="text-4xl font-bold tracking-tight text-foreground">Candidate search</h1>
               <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
                 Describe the person you're looking for in plain English. The assistant searches the

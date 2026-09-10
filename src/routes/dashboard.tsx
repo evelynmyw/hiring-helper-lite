@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 import { AppShell } from "@/components/AppSidebar";
+import { BackButton } from "@/components/BackButton";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -63,6 +64,9 @@ const ACTIVITY = [
 function DashboardPage() {
   return (
     <AppShell>
+      <div className="mb-2">
+        <BackButton />
+      </div>
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
           Recruitment <span className="text-highlight">Dashboard</span>
