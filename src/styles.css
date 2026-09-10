@@ -106,7 +106,7 @@
   --gradient-destructive: var(--destructive);
 
   /* Landing page editorial palette: dusty blue-gray wash + deep brown ink. */
-  --landing-bg: oklch(0.85 0.025 232);
+  --landing-bg: oklch(0.82 0.025 232);
   --landing-ink: oklch(0.32 0.04 55);
 }
 
