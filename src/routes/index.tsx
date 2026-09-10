@@ -87,12 +87,12 @@ function LandingPage() {
       <MarqueeRow words={ROW_ONE} direction="left" startIndex={1} />
 
       <section className="flex flex-1 flex-col items-center justify-center px-4 py-14 text-center">
-        <p className="landing-ink text-sm font-medium tracking-[0.25em]">
+        <p className="text-sm font-medium tracking-[0.25em] text-highlight">
           TARA
         </p>
         <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl">
           Find the right talent,{" "}
-          <span className="landing-ink">faster.</span>
+          <span className="text-highlight">faster.</span>
         </h1>
 
         <p className="mx-auto mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">

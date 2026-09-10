@@ -139,7 +139,7 @@ function RootComponent() {
 
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
           <Link to="/" className="flex items-center">
-            <span className="text-sm font-bold uppercase tracking-[0.18em] text-foreground">
+            <span className="text-sm font-bold uppercase tracking-[0.18em] text-highlight">
               TARA
             </span>
           </Link>
