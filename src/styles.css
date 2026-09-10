@@ -175,36 +175,6 @@
 
 }
 
-@utility aurora-blob {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(60px);
-  will-change: transform;
-  transform: translateZ(0);
-  contain: strict;
-}
-
-@keyframes flare-drift {
-  0% {
-    transform: translate3d(-3%, -2%, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(3%, 2%, 0) scale(1.08);
-  }
-  100% {
-    transform: translate3d(-2%, 3%, 0) scale(1.04);
-  }
-}
-
-@keyframes flare-sweep {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-
 /* Crisp surface retained under the existing utility name. */
 @utility glass {
   background: var(--card);
@@ -244,24 +214,6 @@
   border: 1px solid var(--border);
 }
 
-@keyframes blob-a {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(12%, 10%, 0) scale(1.18); }
-  100% { transform: translate3d(-6%, 6%, 0) scale(1.05); }
-}
-
-@keyframes blob-b {
-  0% { transform: translate3d(0, 0, 0) scale(1.1); }
-  50% { transform: translate3d(-14%, 8%, 0) scale(0.95); }
-  100% { transform: translate3d(8%, -8%, 0) scale(1.15); }
-}
-
-@keyframes blob-c {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(10%, -12%, 0) scale(1.2); }
-  100% { transform: translate3d(-8%, -4%, 0) scale(0.98); }
-}
-
 /* Quiet page wash used on the public landing page. */
 @utility solar-flow {
   position: absolute;
@@ -284,18 +236,8 @@
   opacity: 1;
 }
 
-@keyframes solar-flow-drift {
-  0% {
-    transform: translate3d(-4%, -3%, 0) scale(1.05) rotate(0deg);
-  }
-  100% {
-    transform: translate3d(5%, 4%, 0) scale(1.15) rotate(8deg);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .solar-flow::before,
-  .aurora-blob,
   .flare-text,
   .flare-gradient {
     animation: none !important;

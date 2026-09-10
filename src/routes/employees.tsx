@@ -38,7 +38,7 @@ function EmployeesPage() {
     <AppShell>
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Employee <span className="flare-text">Directory</span>
+          Employee <span className="text-primary">Directory</span>
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {PEOPLE.length} teammates · {PEOPLE.filter((p) => p.panel).length} on
@@ -50,9 +50,9 @@ function EmployeesPage() {
         {PEOPLE.map((p) => (
           <article
             key={p.name}
-            className="glass flare-ring flex items-start gap-4 rounded-2xl p-5"
+            className="glass flex items-start gap-4 rounded-lg p-5"
           >
-            <span className="flare-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary text-sm font-bold text-secondary-foreground">
               {p.name
                 .split(" ")
                 .map((n) => n[0])
@@ -67,7 +67,7 @@ function EmployeesPage() {
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 {p.panel && (
-                  <span className="gradient-success rounded-full px-2.5 py-1 text-[11px] font-medium text-white">
+                  <span className="rounded-full bg-success/15 px-2.5 py-1 text-[11px] font-medium text-success">
                     Interview panel
                   </span>
                 )}
