@@ -101,7 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600;1,700&display=swap",
       },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
@@ -139,7 +139,7 @@ function RootComponent() {
 
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
           <Link to="/" className="flex items-center">
-            <span className="text-sm font-bold uppercase tracking-[0.18em] text-highlight">
+            <span className="font-serif text-lg italic tracking-[0.08em] text-highlight">
               TARA
             </span>
           </Link>
