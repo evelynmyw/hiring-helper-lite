@@ -195,7 +195,7 @@ function MainNav() {
       : [{ to: "/", label: "Home", exact: true }];
 
   return (
-    <nav className="folder-tabs" aria-label="Main navigation">
+    <nav className="folder-tabs self-end" aria-label="Main navigation">
       {links.map((link, i) => (
         <FolderTab
           key={link.to}
