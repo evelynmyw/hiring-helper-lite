@@ -120,7 +120,7 @@ function AuthPage() {
         <Button
           type="button"
           variant="outline"
-          onClick={() => void handleGoogle()}
+          onClick={() => void handleOAuth("google")}
           className="mt-7 h-10 w-full rounded-lg"
         >
           <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
