@@ -101,7 +101,7 @@
   --sidebar-accent-foreground: oklch(0.42 0.08 235);
   --highlight: oklch(0.72 0.11 55);
   --sidebar-border: oklch(0.9 0.012 264);
-  --sidebar-ring: oklch(0.51 0.21 274);
+  --sidebar-ring: oklch(0.55 0.09 235);
 
   --gradient-flare: var(--primary);
   --gradient-success: var(--success);
