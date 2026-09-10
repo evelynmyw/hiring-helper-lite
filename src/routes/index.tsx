@@ -88,7 +88,7 @@ function LandingPage() {
 
       <section className="flex flex-1 flex-col items-center justify-center px-4 py-14 text-center">
         <p className="landing-ink text-sm font-medium tracking-[0.25em]">
-          (05) — TARA
+          TARA
         </p>
         <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl">
           Find the right talent,{" "}
