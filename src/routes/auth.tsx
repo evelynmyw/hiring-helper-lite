@@ -6,6 +6,7 @@ import { useAuth } from "@/components/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable/index";
 import { signInWithPassword, signUpWithPassword } from "@/lib/auth";
+import taraLogo from "../assets/tara-hand-eye-logo.png";
 
 type Search = { redirect?: string | undefined };
 
