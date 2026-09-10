@@ -139,7 +139,14 @@ function RootComponent() {
       <header className="sticky top-0 z-20 h-16 border-b border-border bg-cream">
         <div className="flex h-full w-full items-center px-4 sm:px-6 lg:px-8">
           <div className="flex flex-1 items-center">
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center gap-2">
+              <img
+                src={taraLogo}
+                alt="Tara"
+                width={28}
+                height={28}
+                className="h-7 w-7 object-contain"
+              />
               <span className="font-serif text-lg italic tracking-[0.08em] text-highlight">
                 TARA
               </span>
