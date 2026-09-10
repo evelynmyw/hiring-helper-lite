@@ -35,7 +35,7 @@ export const Route = createFileRoute("/auth")({
 });
 
 const inputClass =
-  "w-full rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15";
+  "w-full rounded-lg border border-input bg-cream px-3 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15";
 
 function AuthPage() {
   const { status } = useAuth();
@@ -103,7 +103,7 @@ function AuthPage() {
 
   return (
     <main className="landing-bg flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md overflow-hidden rounded-xl border border-current/20 bg-card shadow-sm">
+      <div className="w-full max-w-md overflow-hidden rounded-xl border border-current/20 bg-cream shadow-sm">
         <div className="px-7 pb-7 pt-8">
         <div className="mb-7 text-center">
           <p className="landing-ink text-lg font-bold uppercase tracking-[0.18em]">TARA</p>
@@ -258,7 +258,7 @@ function AuthPage() {
           </Button>
         </form>
         </div>
-        <div className="border-t border-border bg-muted/50 px-7 py-5">
+        <div className="border-t border-border bg-cream/80 px-7 py-5">
         <p className="text-center text-sm text-muted-foreground">
           {mode === "login" ? "New to Tara?" : "Already have an account?"}{" "}
           <button
