@@ -135,7 +135,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
       <div className="relative z-10 flex min-h-screen flex-col">
-      <header className="sticky top-0 z-20 h-16 border-b border-border bg-card/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-20 h-16 border-b border-border bg-cream">
 
         <div className="mx-auto flex h-full max-w-5xl items-center gap-6 px-4">
           <Link to="/" className="flex items-center">
