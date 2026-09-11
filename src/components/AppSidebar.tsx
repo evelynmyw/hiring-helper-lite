@@ -5,15 +5,20 @@ import {
   BarChart3,
   Briefcase,
   Calendar,
+  ChevronUp,
   ClipboardCheck,
   Gift,
   Globe,
   HelpCircle,
+  Inbox,
   LayoutDashboard,
+  LifeBuoy,
   LogOut,
   MessageSquare,
+  RefreshCw,
   Settings,
   UserRound,
+  UsersRound,
   Users,
   type LucideIcon,
 } from "lucide-react";
@@ -21,6 +26,14 @@ import type { ReactNode } from "react";
 
 import { RequireAuth, useAuth } from "@/components/AuthProvider";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { initials } from "@/lib/auth";
 
 type NavItem = {
@@ -118,30 +131,82 @@ function UserCard() {
   }
 
   return (
-    <div className="mt-3 flex items-center gap-3 rounded-lg border border-sidebar-border bg-background px-3 py-2">
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-        {initials(user)}
-      </span>
-      <div className="min-w-0 flex-1 leading-tight">
-        <p className="truncate text-sm font-medium text-foreground">
-          {user?.name?.trim() || user?.email || "Signed in"}
-        </p>
-        <p className="truncate text-xs text-muted-foreground">
-          {user?.email ?? ""}
-        </p>
-      </div>
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        onClick={handleSignOut}
-        aria-label="Log out"
-        title="Log out"
-        className="h-8 w-8 text-muted-foreground"
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          variant="ghost"
+          className="mt-3 h-auto w-full justify-start gap-3 border border-sidebar-border bg-background px-3 py-2 text-left hover:bg-sidebar-accent data-[state=open]:bg-sidebar-accent"
+          aria-label="Open account menu"
+        >
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+            {initials(user)}
+          </span>
+          <span className="min-w-0 flex-1 leading-tight">
+            <span className="block truncate text-sm font-medium text-foreground">
+              {user?.name?.trim() || user?.email || "Signed in"}
+            </span>
+            <span className="block truncate text-xs font-normal text-muted-foreground">
+              {user?.email ?? ""}
+            </span>
+          </span>
+          <ChevronUp className="h-4 w-4 shrink-0 text-muted-foreground transition-transform data-[state=open]:rotate-180" />
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent
+        side="top"
+        align="start"
+        sideOffset={8}
+        className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-60 rounded-lg border-sidebar-border bg-popover p-1.5 shadow-lg"
       >
-        <LogOut className="h-4 w-4" />
-      </Button>
-    </div>
+        <DropdownMenuLabel className="flex items-center gap-3 px-2.5 py-2.5 font-normal">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+            {initials(user)}
+          </span>
+          <span className="min-w-0 flex-1 leading-tight">
+            <span className="block truncate font-semibold text-popover-foreground">
+              {user?.name?.trim() || user?.email || "Signed in"}
+            </span>
+            <span className="block truncate text-xs text-muted-foreground">
+              {user?.email ?? ""}
+            </span>
+          </span>
+        </DropdownMenuLabel>
+
+        <DropdownMenuSeparator />
+        <AccountMenuItem icon={UserRound} label="Profile" />
+        <AccountMenuItem icon={Inbox} label="Inbox" />
+        <AccountMenuItem icon={Settings} label="Settings" />
+        <DropdownMenuSeparator />
+        <AccountMenuItem icon={LifeBuoy} label="Support" />
+        <AccountMenuItem icon={UsersRound} label="Community" />
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onSelect={() => void handleSignOut()}
+          className="cursor-pointer px-2.5 py-2.5"
+        >
+          <RefreshCw className="text-muted-foreground" />
+          Switch account
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={() => void handleSignOut()}
+          className="cursor-pointer px-2.5 py-2.5 text-destructive focus:text-destructive"
+        >
+          <LogOut />
+          Sign out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function AccountMenuItem({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
+  return (
+    <DropdownMenuItem disabled className="px-2.5 py-2.5 opacity-100">
+      <Icon className="text-muted-foreground" />
+      {label}
+    </DropdownMenuItem>
   );
 }
 
