@@ -1,15 +1,36 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Briefcase, MapPin, Plus, Users } from "lucide-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import {
+  Briefcase,
+  Check,
+  Link2,
+  Loader2,
+  MapPin,
+  Plus,
+  Users,
+} from "lucide-react";
 
 import { AppShell } from "@/components/AppSidebar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  createJob,
+  getJob,
+  listJobs,
+  updateJob,
+  type Job,
+} from "@/lib/api";
 
 export const Route = createFileRoute("/jobs")({
   head: () => ({
@@ -30,240 +51,257 @@ export const Route = createFileRoute("/jobs")({
   component: JobsPage,
 });
 
-type Job = {
-  title: string;
-  dept: string;
-  location: string;
-  type: string;
-  applicants: number;
-  stage: string;
-  status: string;
-  description: string;
-  responsibilities: string[];
-  requirements: string[];
-};
-
-const JOBS: Job[] = [
-  {
-    title: "Quantitative Analyst",
-    dept: "Trading",
-    location: "Stockholm · Hybrid",
-    type: "Full-time",
-    applicants: 34,
-    stage: "Interviewing",
-    status: "Active",
-    description:
-      "We are looking for a Quantitative Analyst to join our trading team. You will build and validate pricing and risk models that directly support our trading strategies.",
-    responsibilities: [
-      "Develop and backtest quantitative trading models",
-      "Analyze large market datasets using Python and SQL",
-      "Collaborate with traders to improve execution strategies",
-      "Monitor model performance and manage model risk",
-    ],
-    requirements: [
-      "Strong Python skills and experience with pandas/numpy",
-      "Solid foundation in statistics and machine learning",
-      "2+ years of experience in a quantitative role",
-      "Master's degree in a technical field preferred",
-    ],
-  },
-  {
-    title: "Backend Engineer",
-    dept: "Platform",
-    location: "Remote · EU",
-    type: "Full-time",
-    applicants: 51,
-    stage: "Screening",
-    status: "Active",
-    description:
-      "Join our platform team to design and scale the services that power Tara. You will own critical backend systems end to end, from API design to production reliability.",
-    responsibilities: [
-      "Design and build REST APIs and background workers",
-      "Own service reliability, observability and performance",
-      "Review code and mentor junior engineers",
-      "Work closely with product and frontend teams",
-    ],
-    requirements: [
-      "5+ years of backend experience (Node.js, Go or Python)",
-      "Experience with PostgreSQL and message queues",
-      "Familiarity with cloud infrastructure and CI/CD",
-      "Strong communication skills in a remote setting",
-    ],
-  },
-  {
-    title: "Data Scientist",
-    dept: "Research",
-    location: "Stockholm · On-site",
-    type: "Full-time",
-    applicants: 27,
-    stage: "Sourcing",
-    status: "Active",
-    description:
-      "As a Data Scientist on the research team, you will turn messy data into models and insights that shape product decisions across the company.",
-    responsibilities: [
-      "Build predictive models for matching and ranking",
-      "Design and analyze A/B experiments",
-      "Present findings to stakeholders and leadership",
-      "Maintain data pipelines with the data engineering team",
-    ],
-    requirements: [
-      "Strong Python, SQL and statistics background",
-      "Experience with scikit-learn or similar ML frameworks",
-      "Ability to communicate results to non-technical audiences",
-      "MSc or PhD in a quantitative field preferred",
-    ],
-  },
-  {
-    title: "Corporate Lawyer",
-    dept: "Legal",
-    location: "Stockholm · On-site",
-    type: "Full-time",
-    applicants: 8,
-    stage: "Not published",
-    status: "Draft",
-    description:
-      "We are seeking a senior Corporate Lawyer to lead our M&A and commercial legal work. You will advise leadership on transactions, contracts and regulatory matters.",
-    responsibilities: [
-      "Lead due diligence and drafting for M&A transactions",
-      "Negotiate commercial contracts with partners and vendors",
-      "Advise on corporate governance and compliance",
-      "Manage relationships with external counsel",
-    ],
-    requirements: [
-      "10+ years of corporate law experience, focus on M&A",
-      "Qualified to practice in Sweden or another EU jurisdiction",
-      "Fluent in English and Swedish",
-      "Experience in a tech or high-growth environment is a plus",
-    ],
-  },
-  {
-    title: "Product Designer",
-    dept: "Design",
-    location: "Remote · EU",
-    type: "Contract",
-    applicants: 19,
-    stage: "Offer",
-    status: "Active",
-    description:
-      "We are hiring a Product Designer to shape the end-to-end experience of Tara. You will work across research, interaction design and visual polish.",
-    responsibilities: [
-      "Own design from discovery through delivery",
-      "Run user research and usability testing",
-      "Maintain and evolve our design system",
-      "Partner with engineers on implementation quality",
-    ],
-    requirements: [
-      "4+ years of product design experience",
-      "Strong portfolio of shipped web products",
-      "Proficiency with Figma and prototyping tools",
-      "Experience designing data-dense interfaces is a plus",
-    ],
-  },
-  {
-    title: "Recruiting Coordinator",
-    dept: "People",
-    location: "Stockholm · Hybrid",
-    type: "Part-time",
-    applicants: 12,
-    stage: "Closed",
-    status: "Closed",
-    description:
-      "As a Recruiting Coordinator you keep our hiring process running smoothly — scheduling interviews, communicating with candidates and supporting the recruiting team.",
-    responsibilities: [
-      "Schedule and coordinate interviews across teams",
-      "Manage candidate communication and follow-ups",
-      "Keep the ATS data accurate and up to date",
-      "Support recruiting events and employer branding",
-    ],
-    requirements: [
-      "1+ years of coordination or administrative experience",
-      "Excellent organization and communication skills",
-      "Experience with an ATS is a plus",
-      "Available 20–25 hours per week",
-    ],
-  },
-];
-
 const statusStyle: Record<string, string> = {
   Active: "bg-success/15 text-success",
   Draft: "border border-border bg-secondary text-secondary-foreground",
   Closed: "bg-destructive/15 text-destructive",
 };
 
-function JobsPage() {
+function toLines(value: string): string[] {
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+function NewJobDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (value: boolean) => void;
+}) {
+  const queryClient = useQueryClient();
+  const [title, setTitle] = useState("");
+  const [dept, setDept] = useState("");
+  const [location, setLocation] = useState("");
+  const [type, setType] = useState("Full-time");
+  const [description, setDescription] = useState("");
+  const [responsibilities, setResponsibilities] = useState("");
+  const [requirements, setRequirements] = useState("");
+
+  const mutation = useMutation({
+    mutationFn: () =>
+      createJob({
+        title: title.trim(),
+        dept: dept.trim(),
+        location: location.trim(),
+        type,
+        description: description.trim(),
+        responsibilities: toLines(responsibilities),
+        requirements: toLines(requirements),
+      }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      onOpenChange(false);
+      setTitle("");
+      setDept("");
+      setLocation("");
+      setDescription("");
+      setResponsibilities("");
+      setRequirements("");
+    },
+  });
+
   return (
-    <AppShell>
-      <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Open <span className="text-highlight">Jobs</span>
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {JOBS.filter((j) => j.status === "Active").length} active
-            requisitions across {new Set(JOBS.map((j) => j.dept)).size}{" "}
-            departments
-          </p>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>New job</DialogTitle>
+          <DialogDescription>
+            Saved as a draft. Publish it from the job details when you're ready.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="job-title">Title *</Label>
+            <Input
+              id="job-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Backend Engineer"
+            />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="job-dept">Department</Label>
+              <Input
+                id="job-dept"
+                value={dept}
+                onChange={(e) => setDept(e.target.value)}
+                placeholder="Platform"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="job-type">Type</Label>
+              <select
+                id="job-type"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+              >
+                {["Full-time", "Part-time", "Contract", "Internship"].map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="job-location">Location</Label>
+            <Input
+              id="job-location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Stockholm · Hybrid"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="job-desc">Description</Label>
+            <Textarea
+              id="job-desc"
+              rows={4}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="job-resp">Responsibilities (one per line)</Label>
+            <Textarea
+              id="job-resp"
+              rows={4}
+              value={responsibilities}
+              onChange={(e) => setResponsibilities(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="job-req">Requirements (one per line)</Label>
+            <Textarea
+              id="job-req"
+              rows={4}
+              value={requirements}
+              onChange={(e) => setRequirements(e.target.value)}
+            />
+          </div>
+
+          {mutation.isError && (
+            <p className="text-sm text-destructive">
+              Could not create this job, please try again.
+            </p>
+          )}
         </div>
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
-        >
-          <Plus className="h-4 w-4" />
-          New job
-        </button>
-      </header>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {JOBS.map((job) => (
-          <Dialog key={job.title}>
-            <DialogTrigger asChild>
-              <article className="glass cursor-pointer rounded-lg p-5 text-left transition-shadow hover:shadow-md">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <h2 className="truncate text-base font-semibold">
-                      {job.title}
-                    </h2>
-                    <p className="mt-0.5 text-xs text-muted-foreground">
-                      {job.dept} · {job.type}
-                    </p>
-                  </div>
-                  <span
-                    className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${
-                      statusStyle[job.status] ?? "bg-muted text-muted-foreground"
-                    }`}
-                  >
-                    {job.status}
-                  </span>
-                </div>
+        <DialogFooter>
+          <Button
+            onClick={() => mutation.mutate()}
+            disabled={!title.trim() || mutation.isPending}
+          >
+            {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Create draft
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
-                <p className="mt-4 flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <MapPin className="h-3.5 w-3.5" />
-                  {job.location}
-                </p>
-                <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <Users className="h-3.5 w-3.5" />
-                  {job.applicants} applicants
-                </p>
-                <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <Briefcase className="h-3.5 w-3.5" />
+function JobDetailDialog({
+  jobId,
+  onClose,
+}: {
+  jobId: string | null;
+  onClose: () => void;
+}) {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const [copied, setCopied] = useState(false);
+
+  const detail = useQuery({
+    queryKey: ["job", jobId],
+    queryFn: () => getJob(jobId as string),
+    enabled: !!jobId,
+  });
+
+  const statusMutation = useMutation({
+    mutationFn: (changes: Partial<Job>) => updateJob(jobId as string, changes),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      void queryClient.invalidateQueries({ queryKey: ["job", jobId] });
+    },
+  });
+
+  const job = detail.data;
+
+  async function copyApplyLink() {
+    if (!job) return;
+    const url = `${window.location.origin}/apply/${job.job_id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable */
+    }
+  }
+
+  return (
+    <Dialog open={!!jobId} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
+        {detail.isPending && (
+          <div className="space-y-3 py-4">
+            <div className="h-6 w-2/3 animate-pulse rounded bg-muted" />
+            <div className="h-4 w-1/2 animate-pulse rounded bg-muted" />
+            <div className="h-24 animate-pulse rounded bg-muted" />
+          </div>
+        )}
+
+        {detail.isError && (
+          <div className="py-4">
+            <p className="text-sm text-destructive">
+              Could not load this job right now.
+            </p>
+            <Button
+              variant="outline"
+              className="mt-3"
+              onClick={() => void detail.refetch()}
+            >
+              Retry
+            </Button>
+          </div>
+        )}
+
+        {job && (
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-xl">{job.title}</DialogTitle>
+              <DialogDescription>
+                {job.dept} · {job.type} · {job.location}
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-5 text-sm">
+              <div className="flex flex-wrap gap-2">
+                <span
+                  className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                    statusStyle[job.status] ?? "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {job.status}
+                </span>
+                <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
                   {job.stage}
-                </p>
-              </article>
-            </DialogTrigger>
+                </span>
+              </div>
 
-            <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
-              <DialogHeader>
-                <DialogTitle className="text-xl">{job.title}</DialogTitle>
-                <DialogDescription>
-                  {job.dept} · {job.type} · {job.location}
-                </DialogDescription>
-              </DialogHeader>
-
-              <div className="space-y-5 text-sm">
+              {job.description && (
                 <p className="leading-relaxed text-muted-foreground">
                   {job.description}
                 </p>
+              )}
 
+              {!!job.responsibilities?.length && (
                 <div>
                   <h3 className="mb-2 font-semibold">Responsibilities</h3>
                   <ul className="list-disc space-y-1 pl-5 text-muted-foreground">
@@ -272,7 +310,9 @@ function JobsPage() {
                     ))}
                   </ul>
                 </div>
+              )}
 
+              {!!job.requirements?.length && (
                 <div>
                   <h3 className="mb-2 font-semibold">Requirements</h3>
                   <ul className="list-disc space-y-1 pl-5 text-muted-foreground">
@@ -281,16 +321,166 @@ function JobsPage() {
                     ))}
                   </ul>
                 </div>
+              )}
 
-                <p className="flex items-center gap-1.5 border-t border-border pt-4 text-muted-foreground">
-                  <Users className="h-3.5 w-3.5" />
-                  {job.applicants} applicants · {job.stage}
-                </p>
+              <p className="flex items-center gap-1.5 border-t border-border pt-4 text-muted-foreground">
+                <Users className="h-3.5 w-3.5" />
+                {job.applicants} applicants
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {job.status !== "Active" && (
+                  <Button
+                    onClick={() => statusMutation.mutate({ status: "Active" })}
+                    disabled={statusMutation.isPending}
+                  >
+                    Publish
+                  </Button>
+                )}
+                {job.status !== "Closed" && (
+                  <Button
+                    variant="outline"
+                    onClick={() =>
+                      statusMutation.mutate({ status: "Closed", stage: "Closed" })
+                    }
+                    disabled={statusMutation.isPending}
+                  >
+                    Close
+                  </Button>
+                )}
+                {job.status === "Active" && (
+                  <Button variant="outline" onClick={() => void copyApplyLink()}>
+                    {copied ? (
+                      <Check className="mr-2 h-4 w-4" />
+                    ) : (
+                      <Link2 className="mr-2 h-4 w-4" />
+                    )}
+                    {copied ? "Link copied" : "Copy apply link"}
+                  </Button>
+                )}
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    void navigate({
+                      to: "/screening",
+                      search: { jobId: job.job_id },
+                    })
+                  }
+                >
+                  Screen applicants
+                </Button>
               </div>
-            </DialogContent>
-          </Dialog>
-        ))}
-      </section>
+
+              {statusMutation.isError && (
+                <p className="text-sm text-destructive">
+                  Could not update this job, please try again.
+                </p>
+              )}
+            </div>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function JobsPage() {
+  const [openJobId, setOpenJobId] = useState<string | null>(null);
+  const [newOpen, setNewOpen] = useState(false);
+
+  const jobs = useQuery({ queryKey: ["jobs"], queryFn: listJobs });
+  const list = jobs.data ?? [];
+
+  return (
+    <AppShell>
+      <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Open <span className="text-highlight">Jobs</span>
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {list.filter((j) => j.status === "Active").length} active requisitions
+            across {new Set(list.map((j) => j.dept)).size} departments
+          </p>
+        </div>
+        <Button onClick={() => setNewOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          New job
+        </Button>
+      </header>
+
+      {jobs.isPending && (
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="glass h-44 animate-pulse rounded-lg" />
+          ))}
+        </section>
+      )}
+
+      {jobs.isError && (
+        <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-6">
+          <p className="text-sm text-destructive">
+            We couldn't load your jobs right now.
+          </p>
+          <Button
+            variant="outline"
+            className="mt-3"
+            onClick={() => void jobs.refetch()}
+          >
+            Retry
+          </Button>
+        </div>
+      )}
+
+      {jobs.isSuccess && list.length === 0 && (
+        <p className="text-sm text-muted-foreground">
+          No jobs yet. Create your first one with “New job”.
+        </p>
+      )}
+
+      {list.length > 0 && (
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {list.map((job) => (
+            <article
+              key={job.job_id}
+              onClick={() => setOpenJobId(job.job_id)}
+              className="glass cursor-pointer rounded-lg p-5 text-left transition-shadow hover:shadow-md"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h2 className="truncate text-base font-semibold">{job.title}</h2>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    {job.dept} · {job.type}
+                  </p>
+                </div>
+                <span
+                  className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${
+                    statusStyle[job.status] ?? "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {job.status}
+                </span>
+              </div>
+
+              <p className="mt-4 flex items-center gap-1.5 text-sm text-muted-foreground">
+                <MapPin className="h-3.5 w-3.5" />
+                {job.location}
+              </p>
+              <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted-foreground">
+                <Users className="h-3.5 w-3.5" />
+                {job.applicants} applicants
+              </p>
+              <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted-foreground">
+                <Briefcase className="h-3.5 w-3.5" />
+                {job.stage}
+              </p>
+            </article>
+          ))}
+        </section>
+      )}
+
+      <JobDetailDialog jobId={openJobId} onClose={() => setOpenJobId(null)} />
+      <NewJobDialog open={newOpen} onOpenChange={setNewOpen} />
     </AppShell>
   );
 }
