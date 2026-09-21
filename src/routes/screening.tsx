@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { RequireAuth } from "@/components/AuthProvider";
 import { useState } from "react";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { BackButton } from "@/components/BackButton";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   Accordion,
   AccordionContent,
@@ -12,27 +12,36 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
+  ApiError,
   displayName,
   cacheScreening,
+  listJobs,
   screenCandidates,
+  screenJobApplicants,
   type ScreenResponse,
   type ScreenedCandidate,
 } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
+type ScreeningSearch = { jobId?: string };
+
 export const Route = createFileRoute("/screening")({
+  validateSearch: (search: Record<string, unknown>): ScreeningSearch =>
+    typeof search["jobId"] === "string" && search["jobId"]
+      ? { jobId: search["jobId"] }
+      : {},
   head: () => ({
     meta: [
       { title: "Resume Screening — Tara" },
       {
         name: "description",
         content:
-          "Paste a job description and score every candidate in the database with an explainable point-by-point breakdown.",
+          "Pick a job and score everyone who applied, with an explainable point-by-point breakdown.",
       },
       { property: "og:title", content: "Resume Screening — Tara" },
       {
         property: "og:description",
-        content: "Explainable candidate scoring against any job description.",
+        content: "Explainable candidate scoring for every job's applicants.",
       },
     ],
   }),
@@ -50,10 +59,21 @@ function barTone(score: number) {
   return "bg-destructive";
 }
 
+function formatApplied(value?: string | null) {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
 function CandidateCard({ c }: { c: ScreenedCandidate }) {
+  const applied = formatApplied(c.applied_at);
   return (
     <div className="glass rounded-lg p-5">
-
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
@@ -70,6 +90,9 @@ function CandidateCard({ c }: { c: ScreenedCandidate }) {
           </div>
           {c.email && (
             <p className="mt-1 truncate text-xs text-muted-foreground">{c.email}</p>
+          )}
+          {applied && (
+            <p className="mt-1 text-xs text-muted-foreground">Applied {applied}</p>
           )}
           <Link
             to="/candidates/$documentId"
@@ -132,22 +155,40 @@ function CandidateCard({ c }: { c: ScreenedCandidate }) {
 }
 
 function ScreeningPage() {
+  const { jobId } = Route.useSearch();
+  const jobs = useQuery({ queryKey: ["jobs"], queryFn: listJobs });
+
+  const [selected, setSelected] = useState<string>(jobId ?? "");
   const [jd, setJd] = useState("");
+  const [advancedOpen, setAdvancedOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<ScreenResponse | null>(null);
 
-  async function run() {
-    if (!jd.trim() || loading) return;
+  const activeJobId = selected || jobId || "";
+
+  async function run(mode: "job" | "jd") {
+    if (loading) return;
+    if (mode === "job" && !activeJobId) return;
+    if (mode === "jd" && !jd.trim()) return;
+
     setLoading(true);
     setError(null);
     setResult(null);
     try {
-      const res = await screenCandidates(jd.trim());
+      const res =
+        mode === "job"
+          ? await screenJobApplicants(activeJobId)
+          : await screenCandidates(jd.trim());
       cacheScreening(res);
       setResult(res);
-    } catch {
-      setError("Something went wrong, please try again.");
+    } catch (e) {
+      if (e instanceof ApiError && e.status === 404) {
+        setError("This job no longer exists.");
+        void jobs.refetch();
+      } else {
+        setError("Something went wrong, please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -156,33 +197,85 @@ function ScreeningPage() {
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-10">
       <BackButton to="/dashboard" />
-      <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground">Resume screening</h1>
+      <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground">
+        Resume screening
+      </h1>
       <p className="mt-3 text-sm text-muted-foreground">
-        Paste a job description. Every candidate in the database is scored against it
-        with a transparent, point-by-point breakdown.
+        Pick a job and every applicant is scored against it with a transparent,
+        point-by-point breakdown.
       </p>
 
       <div className="glass mt-6 rounded-lg p-4">
-        <textarea
-          value={jd}
-          onChange={(e) => setJd(e.target.value)}
-          rows={12}
-          placeholder="Paste the full job description here — responsibilities, required skills, years of experience, education…"
-          className="w-full resize-y rounded-lg bg-transparent p-2 text-base leading-relaxed outline-none placeholder:text-muted-foreground"
-        />
+        <label
+          htmlFor="job-select"
+          className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+        >
+          Job
+        </label>
+        <select
+          id="job-select"
+          value={activeJobId}
+          onChange={(e) => setSelected(e.target.value)}
+          disabled={jobs.isPending}
+          className="mt-2 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+        >
+          <option value="">
+            {jobs.isPending ? "Loading jobs…" : "Select a job…"}
+          </option>
+          {(jobs.data ?? []).map((job) => (
+            <option key={job.job_id} value={job.job_id}>
+              {job.title} · {job.applicants} applicants
+            </option>
+          ))}
+        </select>
+
         <div className="mt-3 flex items-center justify-between gap-4">
           <span className="text-xs text-muted-foreground">
             Scoring can take 30–60 seconds.
           </span>
           <Button
-            onClick={run}
-            disabled={loading || !jd.trim()}
+            onClick={() => void run("job")}
+            disabled={loading || !activeJobId}
             className="rounded-lg font-semibold"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {loading ? "Analyzing…" : "Screen Candidates"}
+            {loading ? "Analyzing…" : "Screen candidates"}
           </Button>
         </div>
+      </div>
+
+      <div className="mt-4">
+        <button
+          type="button"
+          onClick={() => setAdvancedOpen((v) => !v)}
+          className="text-xs font-medium text-primary hover:underline"
+        >
+          {advancedOpen ? "Hide" : "Advanced: paste a JD instead"}
+        </button>
+
+        {advancedOpen && (
+          <div className="glass mt-3 rounded-lg p-4">
+            <p className="text-xs text-muted-foreground">
+              Not limited to one job's applicants — this scores the whole talent pool.
+            </p>
+            <textarea
+              value={jd}
+              onChange={(e) => setJd(e.target.value)}
+              rows={10}
+              placeholder="Paste the full job description here — responsibilities, required skills, years of experience, education…"
+              className="mt-2 w-full resize-y rounded-lg bg-transparent p-2 text-base leading-relaxed outline-none placeholder:text-muted-foreground"
+            />
+            <div className="mt-2 flex justify-end">
+              <Button
+                variant="outline"
+                onClick={() => void run("jd")}
+                disabled={loading || !jd.trim()}
+              >
+                Score talent pool
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
 
       {loading && (
@@ -192,12 +285,10 @@ function ScreeningPage() {
             Analyzing candidates against this role…
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            Parsing the job description, then scoring each resume on skills,
-            experience and education. This usually takes 30–60 seconds.
+            The first run for a job takes longer; later runs are much faster.
           </p>
         </div>
       )}
-
 
       {error && (
         <div className="mt-6 rounded-2xl border border-destructive/40 bg-destructive/15 p-4 text-sm text-destructive backdrop-blur">
@@ -208,7 +299,6 @@ function ScreeningPage() {
       {result && (
         <div className="mt-8 space-y-6">
           <div className="glass rounded-lg p-5">
-
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Parsed role
             </p>
@@ -255,20 +345,25 @@ function ScreeningPage() {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-              Ranked candidates ({result.candidates.length})
-            </h2>
-            {result.candidates.map((c) => (
-              <CandidateCard key={c.document_id} c={c} />
-            ))}
-          </div>
+          {result.candidates.length === 0 ? (
+            <div className="glass rounded-lg p-6 text-center text-sm text-muted-foreground">
+              No one has applied to this job yet.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                Ranked candidates ({result.candidates.length})
+              </h2>
+              {result.candidates.map((c) => (
+                <CandidateCard key={c.document_id} c={c} />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 }
-
 
 function GuardedScreeningPage() {
   return (
