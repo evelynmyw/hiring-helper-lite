@@ -35,6 +35,95 @@ function scoreTone(score: number) {
   return "text-destructive";
 }
 
+type ResumeEntry =
+  | { kind: "text"; text: string; strong: boolean }
+  | { kind: "bullets"; items: string[] };
+type ResumeBlock = { header: string | null; entries: ResumeEntry[] };
+
+const BULLET_RE = /^[•●▪*·-]\s+/;
+const YEAR_RE = /\b(19|20)\d{2}\b/;
+
+function isSectionHeader(line: string) {
+  if (line.length < 3 || line.length > 60) return false;
+  const letters = line.replace(/[^A-Za-z]/g, "");
+  return letters.length >= 2 && letters === letters.toUpperCase();
+}
+
+function titleCaseHeader(line: string) {
+  return line
+    .toLowerCase()
+    .replace(/(^|[\s/])([a-z])/g, (_, sep: string, ch: string) => sep + ch.toUpperCase());
+}
+
+function parseResume(content: string): ResumeBlock[] {
+  const blocks: ResumeBlock[] = [];
+  let current: ResumeBlock | null = null;
+  for (const raw of content.replace(/\r\n/g, "\n").split("\n")) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (isSectionHeader(line)) {
+      current = { header: titleCaseHeader(line), entries: [] };
+      blocks.push(current);
+      continue;
+    }
+    if (!current) {
+      current = { header: null, entries: [] };
+      blocks.push(current);
+    }
+    if (BULLET_RE.test(line)) {
+      const text = line.replace(BULLET_RE, "");
+      const last = current.entries[current.entries.length - 1];
+      if (last && last.kind === "bullets") last.items.push(text);
+      else current.entries.push({ kind: "bullets", items: [text] });
+      continue;
+    }
+    current.entries.push({ kind: "text", text: line, strong: YEAR_RE.test(line) });
+  }
+  return blocks;
+}
+
+function ResumeText({ content }: { content: string }) {
+  const blocks = parseResume(content);
+  return (
+    <div className="mt-3 space-y-7 text-sm leading-relaxed">
+      {blocks.map((block, bi) => (
+        <section key={bi}>
+          {block.header && (
+            <h3 className="mb-3 border-b border-border pb-1 text-[11px] font-bold uppercase tracking-wider text-primary">
+              {block.header}
+            </h3>
+          )}
+          <div className="space-y-2">
+            {block.entries.map((entry, ei) =>
+              entry.kind === "bullets" ? (
+                <ul key={ei} className="space-y-1.5">
+                  {entry.items.map((item, ii) => (
+                    <li key={ii} className="relative pl-4 text-foreground/90">
+                      <span className="absolute left-0 top-0 text-primary/60">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p
+                  key={ei}
+                  className={cn(
+                    entry.strong
+                      ? "font-semibold text-foreground"
+                      : "text-foreground/90",
+                  )}
+                >
+                  {entry.text}
+                </p>
+              ),
+            )}
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
 function CandidatePage() {
   const { documentId } = Route.useParams();
   const [doc, setDoc] = useState<CandidateDocument | null>(null);
@@ -140,9 +229,13 @@ function CandidatePage() {
           </p>
         )}
         {!loading && !error && (
-          <pre className="mt-3 whitespace-pre-wrap break-words font-sans text-sm leading-relaxed text-foreground">
-            {doc?.content?.trim() || "No resume content available for this candidate."}
-          </pre>
+          doc?.content?.trim() ? (
+            <ResumeText content={doc.content} />
+          ) : (
+            <p className="mt-3 text-sm text-muted-foreground">
+              No resume content available for this candidate.
+            </p>
+          )
         )}
       </div>
     </div>
