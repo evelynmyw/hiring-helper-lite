@@ -66,7 +66,7 @@ const NAV: NavItem[] = [
 ];
 
 const itemBase =
-  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors";
+  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors xl:text-base";
 
 export function AppSidebar() {
   return (
@@ -214,11 +214,13 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <RequireAuth>
       <div
-        className="mx-auto flex w-full max-w-7xl gap-8 px-4"
-        style={{ ["--sidebar-width" as string]: "16rem" }}
+        className="flex w-full gap-6 lg:gap-8"
+        style={{ ["--sidebar-width" as string]: "clamp(16rem, 17vw, 19rem)" }}
       >
         <AppSidebar />
-        <main className="min-w-0 flex-1 py-8">{children}</main>
+        <main className="min-w-0 flex-1 px-4 py-8 sm:px-6 lg:pr-8 xl:pr-10">
+          {children}
+        </main>
       </div>
     </RequireAuth>
   );

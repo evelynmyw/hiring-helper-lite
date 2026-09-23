@@ -181,7 +181,7 @@
   html {
     background-color: var(--color-background);
     /* Scale the whole UI (fonts, nav, sidebar are all rem-based) with viewport width. */
-    font-size: clamp(1rem, 0.75rem + 0.45vw, 1.375rem);
+    font-size: clamp(1rem, 0.72rem + 0.58vw, 1.5rem);
   }
 
   body {
