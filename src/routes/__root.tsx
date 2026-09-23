@@ -226,10 +226,7 @@ function MainNav() {
 const publicTabColors = ["tab-peach", "tab-cream"];
 
 function PublicNav() {
-  const links = [
-    { to: "/apply", label: "Open Positions", exact: true },
-    { to: "/", label: "Home", exact: true },
-  ];
+  const links = [{ to: "/apply", label: "Open Positions", exact: true }];
 
   return (
     <nav className="folder-tabs self-end" aria-label="Applicant navigation">
