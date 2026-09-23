@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -131,6 +132,8 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isPublicApply = pathname === "/apply" || pathname.startsWith("/apply/");
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -152,7 +155,7 @@ function RootComponent() {
               </span>
             </Link>
           </div>
-          <MainNav />
+          {isPublicApply ? <PublicNav /> : <MainNav />}
           <div className="flex flex-1 items-center justify-end">
             <ThemeToggle />
           </div>
