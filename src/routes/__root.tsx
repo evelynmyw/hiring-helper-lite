@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -131,6 +132,8 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isPublicApply = pathname === "/apply" || pathname.startsWith("/apply/");
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -152,7 +155,7 @@ function RootComponent() {
               </span>
             </Link>
           </div>
-          <MainNav />
+          {isPublicApply ? <PublicNav /> : <MainNav />}
           <div className="flex flex-1 items-center justify-end">
             <ThemeToggle />
           </div>
@@ -212,6 +215,30 @@ function MainNav() {
           to={link.to}
           exact={link.exact}
           color={tabColors[i % tabColors.length] ?? "tab-gray"}
+        >
+          {link.label}
+        </FolderTab>
+      ))}
+    </nav>
+  );
+}
+
+const publicTabColors = ["tab-peach", "tab-cream"];
+
+function PublicNav() {
+  const links = [
+    { to: "/apply", label: "Open Positions", exact: true },
+    { to: "/", label: "Home", exact: true },
+  ];
+
+  return (
+    <nav className="folder-tabs self-end" aria-label="Applicant navigation">
+      {links.map((link, i) => (
+        <FolderTab
+          key={link.to}
+          to={link.to}
+          exact={link.exact}
+          color={publicTabColors[i % publicTabColors.length] ?? "tab-gray"}
         >
           {link.label}
         </FolderTab>
