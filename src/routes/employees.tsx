@@ -73,7 +73,7 @@ function EmployeesPage() {
                 )}
                 <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
                   <Mail className="h-3 w-3" />
-                  {p.name.split(" ")[0]?.toLowerCase()}@nordmatch.io
+                  {p.name.split(" ")[0]?.toLowerCase()}@example.com
                 </span>
               </div>
             </div>
