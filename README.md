@@ -1,47 +1,122 @@
-# Talent Scout Assistant
+# Tara — AI Talent Scout (Frontend)
 
-# Lovable Brief — Tara Demo
+Tara is a recruiting assistant web app. HR users search the talent pool in plain language, screen and score applicants against a job, and manage open positions. Candidates browse open roles and apply on a public careers page.
 
-I need a recruiting assistant web app with two pages: a candidate search chat, and a resume screening/scoring page. Backend is already built and running locally at http://localhost:8000. CORS is already open, no proxy needed. No authentication needed.
+This repo is the frontend only. All AI and data features call a separate backend API (default `http://localhost:8000`).
 
-## Page 1: Candidate Search Chat
+- **Stack:** TanStack Start (React 19, file-based routing) · Vite · Tailwind CSS v4 · shadcn/ui (Radix)
+- **Auth:** Supabase (email + password)
+- **Built with:** [Lovable](https://lovable.dev/projects/620bd1c7-2186-4f45-8473-e800285cdbe2). Changes pushed to `main` sync back to the Lovable editor.
 
-A chat-style interface. The user types a natural-language recruiting query into a text input at the bottom (e.g. "Find a quantitative analyst who knows Python and machine learning") and sends it. The query appears as a right-aligned user bubble. While waiting for a response, show a loading/typing indicator — this call can take 5–20 seconds, so a blank screen during that time would look broken. When the response arrives, show it as a left-aligned assistant bubble.
+---
 
-API:
-POST http://localhost:8000/agent/search-candidates
-Content-Type: application/json
+## Quick start
 
-Request body:
-{ "query": "<the user's message, as typed>" }
+**Prerequisites**
 
-Response body:
-{ "query": "...", "answer": "<markdown-formatted text>" }
+- Node.js 22.12 or later (Vite 8 requires it)
+- The Tara backend running locally on port 8000
 
-Important: answer is markdown (headings, bold text, bullet lists, occasional emoji). Render it with a markdown renderer inside the chat bubble — don't display it as raw text, or the user will see literal ## and ** characters.
+```sh
+npm install
+cp .env.example .env   # then fill in the values below
+npm run dev
+```
 
-Each query is an independent, stateless API call — no need to send prior conversation history to the backend.
+Open the URL Vite prints, sign in at `/auth`, and you land on the dashboard.
 
-Error handling: if the request fails, times out, or returns a non-200 status, show an error bubble like "Something went wrong, please try again" instead of crashing or showing nothing.
+> **Run the app locally, not in Lovable's cloud preview.** The backend only listens on `localhost`, so a cloud preview can't reach it.
 
-Example queries (nice to show as clickable suggestion chips or placeholder text):
-- "Find a quantitative analyst who knows Python and machine learning"
-- "Any candidates with a master's degree in a technical field?"
-- "Looking for a senior corporate lawyer with 10+ years of M&A experience" (this one should come back honestly saying no good match exists)
+### Environment variables
 
-## Page 2: Resume Screening / Scoring
+| Variable | Purpose |
+| --- | --- |
+| `VITE_API_BASE_URL` | Backend base URL. Defaults to `http://localhost:8000` |
+| `VITE_SUPABASE_URL` | Supabase project URL (browser client) |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable (anon) key (browser client) |
+| `VITE_SUPABASE_PROJECT_ID` | Supabase project ID |
+| `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_PROJECT_ID` | Same values, used on the server side |
 
-A form-based page, separate tab/route from the chat. A large textarea for pasting a job description, and a "Screen Candidates" button. This call is slow — it can take 30–60+ seconds, so show a clear loading state with something like "Analyzing candidates against this role..." rather than a generic spinner with no context.
+### Scripts
 
-API:
-POST http://localhost:8000/agent/screen-candidates
-Content-Type: application/json
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
+| `npm run format` | Format everything with Prettier |
 
-Request body:
-{ "job_description": "<the full JD text, can be multiple paragraphs>" }
+---
 
-Response body:
+## Pages
+
+### For HR (sign-in required)
+
+| Route | Page | Data |
+| --- | --- | --- |
+| `/dashboard` | Recruitment overview: stats, pipeline, activity | Mock data |
+| `/jobs` | List, create and edit job postings | Backend |
+| `/chat` | **Candidate search.** Ask in natural language, e.g. "Find a quant analyst who knows Python and ML" | Backend |
+| `/screening` | **Resume screening.** Score a job's applicants, or paste a JD to score the whole pool (advanced mode) | Backend |
+| `/candidates/:documentId` | One candidate's resume and score breakdown | Backend |
+| `/employees` | Employee directory | Mock data |
+| `/schedule` | Interview calendar | Mock data |
+| `/analytics` | Hiring analytics charts | Mock data |
+
+If a signed-out user opens any of these, they're redirected to `/auth` and sent back after signing in.
+
+### Public (no sign-in)
+
+| Route | Page |
+| --- | --- |
+| `/` | Landing page |
+| `/auth` | Sign in / sign up |
+| `/apply` | Careers site: list of open positions |
+| `/apply/:jobId` | Job details and application form (name, email, resume upload) |
+
+---
+
+## Backend API
+
+All calls go through [`src/lib/api.ts`](src/lib/api.ts). Authenticated requests send the Supabase access token as `Authorization: Bearer <token>`. If the backend returns `401`, the user is signed out and sent to `/auth`.
+
+| Method | Endpoint | Used by | Timeout |
+| --- | --- | --- | --- |
+| `POST` | `/agent/search-candidates` | Candidate search | 30 s |
+| `POST` | `/agent/screen-candidates` | Resume screening | 120 s |
+| `GET` `POST` | `/jobs` | Jobs page | 30 s |
+| `GET` `PATCH` | `/jobs/:jobId` | Jobs page | 30 s |
+| `GET` | `/documents/:documentId` | Candidate detail | 30 s |
+| `GET` | `/public/jobs`, `/public/jobs/:jobId` | Careers site (no auth) | 30 s |
+| `POST` | `/public/jobs/:jobId/apply` | Application form, multipart (no auth) | 60 s |
+
+<details>
+<summary><b>Request and response shapes for the two AI endpoints</b></summary>
+
+**Candidate search:** `POST /agent/search-candidates`
+
+```jsonc
+// request
+{ "query": "Find a quantitative analyst who knows Python and machine learning" }
+
+// response: `answer` is Markdown and is rendered as Markdown, never as raw HTML
+{ "query": "...", "answer": "## Top matches\n..." }
+```
+
+Each query is independent. No chat history is sent.
+
+**Resume screening:** `POST /agent/screen-candidates`
+
+```jsonc
+// request: either score a job's applicants...
+{ "job_id": "..." }
+// ...or score the whole talent pool against a pasted JD (advanced mode)
+{ "job_description": "<full JD text>" }
+
+// response: candidates arrive already sorted by rank
 {
+  "job_id": "...",
   "job_title": "Quantitative Analyst",
   "required_skills": ["Python", "SQL"],
   "nice_to_have_skills": ["Bloomberg Terminal"],
@@ -49,49 +124,50 @@ Response body:
     {
       "rank": 1,
       "name": "Zhang Haoran",
-      "email": "haoran.zhang@alumni.tsinghua.edu.cn",
-      "document_id": "fe19d82e-f345-45d7-b08e-ffed73f0dea0",
+      "email": "haoran.zhang@example.com",
+      "document_id": "fe19d82e-...",
       "overall_score": 68.3,
+      "applied_at": "2026-09-01T10:00:00Z",
       "breakdown": [
-        { "criterion": "Required Skills", "max_points": 50, "earned_points": 33.3, "reasoning": "Matched 2/3 required skills, hit: Python, SQL; missing: Machine Learning" },
+        { "criterion": "Required Skills",     "max_points": 50, "earned_points": 33.3, "reasoning": "Matched 2/3 ..." },
         { "criterion": "Nice-to-have Skills", "max_points": 15, "earned_points": 10.0, "reasoning": "..." },
         { "criterion": "Years of Experience", "max_points": 20, "earned_points": 20.0, "reasoning": "..." },
-        { "criterion": "Education", "max_points": 15, "earned_points": 15.0, "reasoning": "..." }
+        { "criterion": "Education",           "max_points": 15, "earned_points": 15.0, "reasoning": "..." }
       ]
     }
   ]
 }
-
-Display requirements:
-1. At the top, show a summary of what was parsed from the JD: job_title, required_skills, nice_to_have_skills.
-2. List candidates in rank order (already sorted by the API). For each: display name — name, falling back to email, falling back to the first 8 characters of document_id — and overall_score prominently (big number out of 100, optionally a progress bar).
-3. The breakdown is the most important part of this page — show all 4 criteria with earned/max points and the reasoning text for each candidate, visible or one click away. This proves the score is explainable, not a black box.
-4. Optional: color-code overall_score (green >60, amber 35–60, red <35).
-5. No pagination needed — dataset is small (~16 candidates).
-
-## General notes
-
-- Keep the visual design clean and professional — internal recruiting tool demo, not consumer-facing, but polish matters (it's for a job interview).
-- Both answer and reasoning are LLM-generated text — render as plain text/markdown, never as raw HTML.
-- Important: run this app locally (npm run dev) on the same machine as the backend, not on Lovable's cloud preview — the backend only runs on localhost:8000 and isn't reachable from the internet.
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/620bd1c7-2186-4f45-8473-e800285cdbe2).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
 ```
+
+A candidate's display name is `name`, falling back to `email`, then to the first 8 characters of `document_id`.
+
+</details>
+
+---
+
+## Project structure
+
+```
+src/
+├── routes/            # One file per page (TanStack file-based routing)
+│   └── __root.tsx     # App shell: header, nav, auth provider
+├── components/        # App components (sidebar, Markdown renderer, theme toggle…)
+│   └── ui/            # shadcn/ui primitives
+├── lib/
+│   ├── api.ts         # Backend client: every API call and its types
+│   └── auth.ts        # Supabase sign-in / sign-up / profile helpers
+├── integrations/      # Supabase and Lovable clients (generated, avoid editing)
+└── routeTree.gen.ts   # Auto-generated by the router. Do not edit
+drizzle/               # Supabase `profiles` table migration
+supabase/              # Supabase project config
+```
+
+To add a page, create a file in `src/routes/`. For example, `src/routes/reports.tsx` becomes `/reports`. See [`src/routes/README.md`](src/routes/README.md) for naming rules.
+
+---
+
+## Notes for contributors
+
+- This repo is connected to Lovable. **Don't force-push or rewrite pushed history**, because it breaks the project history on Lovable's side. Keep `main` in a working state.
+- Don't add Vite plugins by hand in `vite.config.ts`. `@lovable.dev/vite-tanstack-config` already includes React, Tailwind, the router and path aliases.
+- Never commit `.env`.
